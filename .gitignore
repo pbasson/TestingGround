@@ -11,9 +11,7 @@
 *.pri
 *.kdev4
 *.pro
-*.uproject
 *.json
-battletankCodeCompletionFolders.txt
 TestingGroundCodeCompletionFolders.txt
 TestingGroundCodeLitePreProcessor.txt
 *.workspace
