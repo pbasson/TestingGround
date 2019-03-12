@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+///AUTHOR:PREETPAL_BASSON
+//PURPOSE :
 
 #pragma once
 
@@ -6,6 +7,7 @@
 #include "BehaviorTree/BTTaskNode.h"
 #include "ChooseWaypoint.generated.h"
 
+class UPatrolRoute;
 
 UCLASS()
 class TESTINGGROUND_API UChooseWaypoint : public UBTTaskNode
