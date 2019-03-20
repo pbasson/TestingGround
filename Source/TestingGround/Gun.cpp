@@ -28,7 +28,7 @@ void AGun::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+//	FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 }
 
 void AGun::OnFire()
