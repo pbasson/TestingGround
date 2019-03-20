@@ -65,6 +65,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
 
+    void OnFire();
+
 private: 
 	AGun* Gun = nullptr;
 
