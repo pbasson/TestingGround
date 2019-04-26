@@ -5,12 +5,9 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Animation/AnimInstance.h"
+#include "Components/InputComponent.h"
 
 
-void AMannequin::OnFire()
-{
-	if (Gun) { Gun->OnFire(); }
-}
 
 // Sets default values
 AMannequin::AMannequin()
@@ -40,18 +37,28 @@ void AMannequin::BeginPlay()
 {
 	Super::BeginPlay();
 	GunSetup();
+	if (InputComponent != NULL)
+	{
+		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::OnFire);
+	}
 }
 
 void AMannequin::GunSetup()
 {
 
-	UE_LOG(LogTemp, Warning, TEXT("GUNSETUP"));
 	if (GunBlueprint == NULL) { return; }
 
 	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
 	// AttachToComponent to Socket of the Skeleton
 	Gun->AttachToComponent(FPMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 	Gun->AnimInstance = FPMesh->GetAnimInstance();
+
+}
+
+void AMannequin::OnFire()
+{
+	if (Gun) { Gun->OnFire(); }
+	UE_LOG(LogTemp, Warning, TEXT("FIRED"));
 }
 
 // Called every frame
@@ -65,6 +72,5 @@ void AMannequin::Tick(float DeltaTime)
 void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
