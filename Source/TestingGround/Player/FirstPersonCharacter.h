@@ -4,10 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Gun.h"
 #include "FirstPersonCharacter.generated.h"
 
-
+class AGun;
 class UInputComponent;
 
 UCLASS(config=Game)

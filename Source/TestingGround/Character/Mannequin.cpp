@@ -2,6 +2,7 @@
 
 #include "Mannequin.h"
 #include "Camera/CameraComponent.h"
+#include "Weapons/Gun.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Animation/AnimInstance.h"

@@ -1,7 +1,8 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
 #include "Player/FirstPersonCharacter.h"
-#include "TestingGroundProjectile.h"
+#include "Weapons/GunProjectile.h"
+#include "Weapons/Gun.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"

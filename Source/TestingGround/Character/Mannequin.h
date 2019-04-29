@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Gun.h"
 #include "Mannequin.generated.h"
 
+class AGun;
 
 UCLASS()
 class TESTINGGROUND_API AMannequin : public ACharacter
