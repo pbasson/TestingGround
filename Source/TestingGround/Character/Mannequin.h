@@ -7,6 +7,7 @@
 #include "Mannequin.generated.h"
 
 class AGun;
+class UInputComponent;
 
 UCLASS()
 class TESTINGGROUND_API AMannequin : public ACharacter
@@ -20,6 +21,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AGun> GunBlueprint;
 
+	/** Gun muzzle's offset from the characters location */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	FVector GunOffset;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -29,9 +34,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void OnFire();
 
+	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	float BaseTurnRate;
+
+	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	float BaseLookUpRate;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void TurnAtRate(float Rate);
+	void LookUpAtRate(float Rate);
 
 private:
 
