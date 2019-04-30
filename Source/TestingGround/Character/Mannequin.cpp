@@ -107,8 +107,34 @@ void AMannequin::GunSetup()
 
 void AMannequin::OnFire()
 {
-	if (Gun) { Gun->OnFire(); }
-	UE_LOG(LogTemp, Warning, TEXT("FIRED"));
+    if (Gun) { Gun->OnFire(); }
+}
+
+float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
+{
+    UE_LOG(LogTemp, Warning, TEXT("FIREDS: %f"), Health)
+    if(Health > HealthZero)
+    {
+        Health = Health - Damage;
+    }
+    else{
+        Health = HealthZero;
+        DetachFromControllerPendingDestroy();
+    }
+    return Health;
+}
+
+float AMannequin::HealthFunction()
+{
+    if(Health != HealthZero)
+    {
+
+    }
+    else{
+        Health = HealthZero;
+        return Health;
+    }
+    return Health;
 }
 
 
