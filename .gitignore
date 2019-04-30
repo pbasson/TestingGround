@@ -51,7 +51,6 @@ Makefile
 *.VC.db
 *.VC.opendb
 .vscode/*
-*.uproject
 
 # Precompiled Assets
 SourceArt/**/*.png
