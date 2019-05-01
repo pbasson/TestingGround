@@ -36,9 +36,6 @@ public:
 
     virtual float TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser);
 
-    UFUNCTION(BlueprintCallable, Category = Health)
-    float HealthFunction();
-
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	float BaseTurnRate;
@@ -48,7 +45,7 @@ public:
 	float BaseLookUpRate;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default)
-    float Health = 100.0f;
+    float Health;
 
 protected:
 	// Called when the game starts or when spawned
@@ -73,6 +70,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	AGun* Gun = nullptr;
 
-    float HealthZero = 0.0f;
+	float MovementZero; 
 
+    float HealthZero;
+	float HealthMax;
 };

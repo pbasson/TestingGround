@@ -16,10 +16,18 @@ AMannequin::AMannequin()
 //	PrimaryActorTick.bCanEverTick = true;
 
 	GetCapsuleComponent()->InitCapsuleSize(55.0f, 96.0f);
+	
+	//Set up health values
+	HealthMax = 100.0f;
+	HealthZero = 0.0f;
+	Health = HealthMax;
+	FMath::Clamp(Health, HealthZero, HealthMax);
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
+	MovementZero = 0.0f; 
+
 
 	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPCamera"));
 	FPCamera->SetupAttachment(GetCapsuleComponent());
@@ -76,12 +84,12 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 void AMannequin::MoveForward(float Value)
 {
-	if (Value != 0.0f) { AddMovementInput(GetActorForwardVector(), Value);	}
+	if (Value != MovementZero) { AddMovementInput(GetActorForwardVector(), Value);	}
 }
 
 void AMannequin::MoveRight(float Value)
 {
-	if (Value != 0.0f) { AddMovementInput(GetActorRightVector(), Value); }
+	if (Value != MovementZero) { AddMovementInput(GetActorRightVector(), Value); }
 }
 
 void AMannequin::TurnAtRate(float Rate)
@@ -112,31 +120,11 @@ void AMannequin::OnFire()
 
 float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
 {
-    UE_LOG(LogTemp, Warning, TEXT("FIREDS: %f"), Health)
-    if(Health > HealthZero)
-    {
-        Health = Health - Damage;
-    }
-    else{
-        Health = HealthZero;
-        DetachFromControllerPendingDestroy();
-    }
+    if(Health > HealthZero) 
+	{ Health = Health - Damage; }
+
+    if (Health == HealthZero)
+	{ DetachFromControllerPendingDestroy(); }
     return Health;
 }
-
-float AMannequin::HealthFunction()
-{
-    if(Health != HealthZero)
-    {
-
-    }
-    else{
-        Health = HealthZero;
-        return Health;
-    }
-    return Health;
-}
-
-
-
 
