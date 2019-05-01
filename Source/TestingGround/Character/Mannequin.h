@@ -47,6 +47,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default)
     float Health;
 
+    UFUNCTION(BlueprintPure, Category = "Health")
+    float GetHealth() const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -72,6 +75,6 @@ private:
 
 	float MovementZero; 
 
-    float HealthZero;
-	float HealthMax;
+    const float HealthZero = 0.0f;
+    const float HealthMax = 100.0f;
 };

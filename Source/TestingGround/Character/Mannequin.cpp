@@ -18,8 +18,6 @@ AMannequin::AMannequin()
 	GetCapsuleComponent()->InitCapsuleSize(55.0f, 96.0f);
 	
 	//Set up health values
-	HealthMax = 100.0f;
-	HealthZero = 0.0f;
 	Health = HealthMax;
 	FMath::Clamp(Health, HealthZero, HealthMax);
 
@@ -51,9 +49,7 @@ void AMannequin::BeginPlay()
 	Super::BeginPlay();
 	GunSetup();
 	if (InputComponent != NULL)
-	{
-		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::OnFire);
-	}
+    { InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::OnFire); }
 }
 
 // Called every frame
@@ -70,7 +66,6 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMannequin::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMannequin::MoveRight);
@@ -124,7 +119,12 @@ float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, ACon
 	{ Health = Health - Damage; }
 
     if (Health == HealthZero)
-	{ DetachFromControllerPendingDestroy(); }
+    { DetachFromControllerPendingDestroy(); }
     return Health;
+}
+
+float AMannequin::GetHealth() const
+{
+    return Health / HealthMax;
 }
 
