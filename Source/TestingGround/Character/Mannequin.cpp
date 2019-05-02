@@ -49,7 +49,7 @@ void AMannequin::BeginPlay()
 	Super::BeginPlay();
 	GunSetup();
 	if (InputComponent != NULL)
-    { InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::OnFire); }
+    { InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger); }
 }
 
 // Called every frame
@@ -108,9 +108,9 @@ void AMannequin::GunSetup()
 
 }
 
-void AMannequin::OnFire()
+void AMannequin::PullTrigger()
 {
-    if (Gun) { Gun->OnFire(); }
+	if (Gun) { Gun->OnFire(); }
 }
 
 float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
