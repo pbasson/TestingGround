@@ -48,8 +48,7 @@ void AMannequin::BeginPlay()
 {
 	Super::BeginPlay();
 	GunSetup();
-	if (InputComponent != NULL)
-    { InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger); }
+	if (InputComponent != NULL) { InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger); }
 }
 
 // Called every frame
@@ -115,11 +114,9 @@ void AMannequin::PullTrigger()
 
 float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
 {
-    if(Health > HealthZero) 
-	{ Health = Health - Damage; }
+    if(Health > HealthZero) { Health = Health - Damage; }
 
-    if (Health == HealthZero)
-    { DetachFromControllerPendingDestroy(); }
+    if (Health == HealthZero) { DetachFromControllerPendingDestroy(); }
     return Health;
 }
 
