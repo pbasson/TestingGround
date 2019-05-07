@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "GunProjectile.generated.h"
 
+class UParticleSystemComponent;
+class UGameplayStatics;
+
 UCLASS(config=Game)
 class AGunProjectile : public AActor
 {
@@ -30,5 +33,17 @@ public:
 	FORCEINLINE class USphereComponent* GetCollisionComp() const { return CollisionComp; }
 	/** Returns ProjectileMovement subobject **/
 	FORCEINLINE class UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
+
+protected:
+    UPROPERTY(VisibleAnywhere)
+    UParticleSystemComponent* LaunchBlast = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Setup")
+    float DestroyDelay = 10.0;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Setup")
+    float ProjectileDamage = 20.0;
+
+    void OnTimerExpire();
 };
 
