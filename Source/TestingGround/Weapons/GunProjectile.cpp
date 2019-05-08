@@ -5,6 +5,7 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
 
 AGunProjectile::AGunProjectile() 
 {
@@ -39,14 +40,6 @@ void AGunProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 {
     LaunchBlast->Deactivate();
     CollisionComp->DestroyComponent();
-	// Only add impulse and destroy projectile if we hit a physics
-    /*if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
-	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-
-
-    }*/
-// ApplyPointDamage(AActor* DamagedActor, float BaseDamage, const FVector& HitFromDirection, const FHitResult& HitInfo, AController* EventInstigator, AActor* DamageCauser, TSubclassOf<class UDamageType> DamageTypeClass);
 
     UGameplayStatics::ApplyPointDamage(OtherActor, ProjectileDamage, GetActorLocation(), Hit, NULL,NULL,NULL);
 

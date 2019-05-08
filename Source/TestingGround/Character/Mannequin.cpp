@@ -103,7 +103,7 @@ void AMannequin::GunSetup()
 	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
 	// AttachToComponent to Socket of the Skeleton
 	Gun->AttachToComponent(FPMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-	Gun->AnimInstance = FPMesh->GetAnimInstance();
+	Gun->AnimInstance = GetMesh()->GetAnimInstance();
 
 }
 
