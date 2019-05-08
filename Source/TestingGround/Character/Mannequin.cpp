@@ -101,9 +101,11 @@ void AMannequin::GunSetup()
 	if (GunBlueprint == NULL) { return; }
 
 	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
+	if (IsPlayerControlled()) { Gun->AttachToComponent(FPMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); }
+	else { Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); }
 	// AttachToComponent to Socket of the Skeleton
-	Gun->AttachToComponent(FPMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-	Gun->AnimInstance = GetMesh()->GetAnimInstance();
+	Gun->AnimInstanceFP = FPMesh->GetAnimInstance();
+	Gun->AnimInstanceTP = GetMesh()->GetAnimInstance();
 
 }
 
@@ -123,5 +125,14 @@ float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, ACon
 float AMannequin::GetHealth() const
 {
     return Health / HealthMax;
+}
+
+void AMannequin::UnPossessed()
+{
+	Super::UnPossessed();
+	if (Gun != nullptr)
+	{
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	}
 }
 

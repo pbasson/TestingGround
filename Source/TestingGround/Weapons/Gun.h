@@ -33,10 +33,16 @@ public:
 
 	/** AnimMontage to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	class UAnimMontage* FireAnimation;
+	class UAnimMontage* FireAnimationFP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	class UAnimInstance* AnimInstance;
+	class UAnimMontage* FireAnimationTP;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimInstance* AnimInstanceFP;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimInstance* AnimInstanceTP;
 
 	UFUNCTION(BlueprintCallable, Category = "Input")
     void OnFire();

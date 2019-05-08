@@ -50,6 +50,8 @@ public:
     UFUNCTION(BlueprintPure, Category = "Health")
     float GetHealth() const;
 
+	virtual void UnPossessed() override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
