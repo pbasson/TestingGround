@@ -24,10 +24,11 @@ void ATile::BeginPlay()
 bool ATile::CastSphere(FVector Location, float Radius)
 {
 	FHitResult HitResult;
-	bool HasHit = GetWorld()->SweepSingleByChannel(HitResult, Location, Location, FQuat::Identity, ECollisionChannel::ECC_Camera, FCollisionShape::MakeSphere(Radius));
+	bool HasHit = GetWorld()->SweepSingleByChannel(HitResult, Location, Location, FQuat::Identity, ECC_GameTraceChannel2, FCollisionShape::MakeSphere(Radius));
 	
 	FColor ResultColor = HasHit ? FColor::Red : FColor::Green;
-	DrawDebugSphere(GetWorld(), Location, Radius, 10, ResultColor, true, 100);
+	//DrawDebugSphere(GetWorld(), Location, Radius, 10, ResultColor, true, 100);
+	DrawDebugCapsule(GetWorld(), Location, 10, Radius, FQuat::Identity, ResultColor, true, 100);
 	return HasHit;
 }
 
