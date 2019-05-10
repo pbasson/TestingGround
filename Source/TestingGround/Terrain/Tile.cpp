@@ -49,7 +49,12 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn,
 	{
 		FVector Spawnpoint;
 		bool found = FindEmptyLocation(Spawnpoint, Radius);
-		PlaceActor(ToSpawn, Spawnpoint);
+		if (found)
+		{
+			float Rotation = FMath::RandRange(-180.0f, 180.0f);
+			PlaceActor(ToSpawn, Spawnpoint, Rotation);
+		}
+
 	}
 }
 
@@ -73,11 +78,11 @@ bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 	return false;
 }
 
-void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector Spawnpoint)
+void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector Spawnpoint, float Rotation)
 {
 		AActor* Spawned = GetWorld()->SpawnActor<AActor>(ToSpawn);
 		Spawned->SetActorRelativeLocation(Spawnpoint);
 		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-
+		Spawned->SetActorRotation(FRotator(0, Rotation, 0));
 }
 
