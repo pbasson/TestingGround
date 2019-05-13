@@ -136,9 +136,7 @@ void AMannequin::UnPossessed()
 {
 	Super::UnPossessed();
 	if (Gun != nullptr)
-	{
-		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-    }
+    { Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); }
 }
 
 void AMannequin::EnemyDestroy()
