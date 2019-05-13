@@ -39,7 +39,7 @@ protected:
     UParticleSystemComponent* LaunchBlast = nullptr;
 
     UPROPERTY(EditDefaultsOnly, Category = "Setup")
-    float DestroyDelay = 2.0;
+    float DestroyDelay = 0.5f;
 
     UPROPERTY(EditDefaultsOnly, Category = "Setup")
     float ProjectileDamage = 20.0;

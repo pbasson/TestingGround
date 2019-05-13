@@ -45,7 +45,7 @@ public:
 	float BaseLookUpRate;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default)
-    float Health;
+    float HealthCurrent;
 
     UFUNCTION(BlueprintPure, Category = "Health")
     float GetHealth() const;

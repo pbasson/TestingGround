@@ -18,8 +18,8 @@ AMannequin::AMannequin()
 	GetCapsuleComponent()->InitCapsuleSize(55.0f, 96.0f);
 	
 	//Set up health values
-	Health = HealthMax;
-	FMath::Clamp(Health, HealthZero, HealthMax);
+    HealthCurrent = HealthMax;
+    FMath::Clamp(HealthCurrent, HealthZero, HealthMax);
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -116,15 +116,15 @@ void AMannequin::PullTrigger()
 
 float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
 {
-    if(Health > HealthZero) { Health = Health - Damage; }
+    if(HealthCurrent > HealthZero) { HealthCurrent = HealthCurrent - Damage; }
 
-    if (Health == HealthZero) { DetachFromControllerPendingDestroy(); }
-    return Health;
+    if (HealthCurrent == HealthZero) { DetachFromControllerPendingDestroy(); }
+    return HealthCurrent;
 }
 
 float AMannequin::GetHealth() const
 {
-    return Health / HealthMax;
+    return HealthCurrent / HealthMax;
 }
 
 void AMannequin::UnPossessed()
