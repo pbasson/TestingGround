@@ -118,7 +118,12 @@ float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, ACon
 {
     if(HealthCurrent > HealthZero) { HealthCurrent = HealthCurrent - Damage; }
 
-    if (HealthCurrent == HealthZero) { DetachFromControllerPendingDestroy(); }
+    if (HealthCurrent == HealthZero) {
+        DetachFromControllerPendingDestroy();
+        UnPossessed();
+        FTimerHandle Timer;
+        GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::EnemyDestroy, DestroyDelay, false);
+    }
     return HealthCurrent;
 }
 
@@ -133,6 +138,14 @@ void AMannequin::UnPossessed()
 	if (Gun != nullptr)
 	{
 		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-	}
+    }
+}
+
+void AMannequin::EnemyDestroy()
+{
+    if (GetName() !=  "Player") {
+        Destroy();
+        Gun->Destroy();
+    }
 }
 
