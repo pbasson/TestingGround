@@ -1,25 +1,22 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+//AUTHOR: PREETPAL BASSON 
 
 #include "HealthPowerUp.h"
+#include "Character/Mannequin.h"
 
 
-// Sets default values
 AHealthPowerUp::AHealthPowerUp()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
 
 }
 
-// Called when the game starts or when spawned
+
 void AHealthPowerUp::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
+
 void AHealthPowerUp::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

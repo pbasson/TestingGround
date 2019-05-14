@@ -4,6 +4,7 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 
+
 // Sets default values
 ATile::ATile()
 {
@@ -18,7 +19,7 @@ void ATile::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	CanSpawnAtLocation(GetActorLocation(), 300);
+
 }
 // Called every frame
 void ATile::Tick(float DeltaTime)

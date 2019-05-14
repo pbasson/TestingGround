@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "HealthPowerUp.generated.h"
 
+class UMannequin;
+
 UCLASS()
 class TESTINGGROUND_API AHealthPowerUp : public AActor
 {
@@ -14,6 +16,8 @@ class TESTINGGROUND_API AHealthPowerUp : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AHealthPowerUp();
+
+	float HealthPack = 25.0f;
 
 protected:
 	// Called when the game starts or when spawned
