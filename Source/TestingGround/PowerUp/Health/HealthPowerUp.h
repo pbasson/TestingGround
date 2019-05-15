@@ -6,7 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "HealthPowerUp.generated.h"
 
-class UMannequin;
 
 UCLASS()
 class TESTINGGROUND_API AHealthPowerUp : public AActor
@@ -17,15 +16,24 @@ public:
 	// Sets default values for this actor's properties
 	AHealthPowerUp();
 
+	UPROPERTY(EditAnywhere, Category = "Collision")
+	class USphereComponent* CollisionSphere;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	class UStaticMeshComponent* HealthMesh;
+
+	UFUNCTION()
+	void OnOverlapBegin(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+
 	float HealthPack = 25.0f;
+	float Radius = 100.0f;
+
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	
 	
