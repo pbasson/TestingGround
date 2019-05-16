@@ -44,16 +44,21 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	float BaseLookUpRate;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (ClampMin = "0.0", ClampMax = "100.0", UIMin = "0.0", UIMax = "100.0"))
     float HealthCurrent;
 
     UFUNCTION(BlueprintPure, Category = "Health")
     float GetHealth() const;
 
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float SetHealthpack(float Healthpack);
+
 	virtual void UnPossessed() override;
 
     float DestroyDelay = 2.0f;
     void EnemyDestroy();
+	const float HealthZero = 0.0f;
+	const float HealthMax = 100.0f;
 
 protected:
 	// Called when the game starts or when spawned
@@ -81,6 +86,5 @@ private:
 
 	float MovementZero; 
 
-    const float HealthZero = 0.0f;
-    const float HealthMax = 100.0f;
+  
 };

@@ -19,7 +19,7 @@ AMannequin::AMannequin()
 	
 	//Set up health values
     HealthCurrent = HealthMax;
-    FMath::Clamp(HealthCurrent, HealthZero, HealthMax);
+	HealthCurrent = FMath::Clamp(HealthCurrent, HealthZero, HealthMax);
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -130,6 +130,21 @@ float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, ACon
 float AMannequin::GetHealth() const
 {
     return HealthCurrent / HealthMax;
+}
+
+float AMannequin::SetHealthpack(float Healthpack)
+{
+	if (HealthCurrent < HealthMax && HealthCurrent > 75.0f)
+	{
+		HealthCurrent = HealthMax;
+	}
+	else if (HealthCurrent < HealthMax)
+	{
+		HealthCurrent = HealthCurrent + Healthpack;
+	}
+
+
+	return HealthCurrent;
 }
 
 void AMannequin::UnPossessed()

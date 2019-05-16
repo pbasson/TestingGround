@@ -4,6 +4,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Character/Mannequin.h"
 
 AHealthPowerUp::AHealthPowerUp()
 {
@@ -32,14 +33,20 @@ void AHealthPowerUp::OnOverlapBegin(UPrimitiveComponent * HitComp, AActor * Othe
 {
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && (OtherActor->GetName() == "Player"))
 	{
-	//	UE_LOG(LogTemp, Warning, TEXT("OverLap: %s"), *OtherActor->GetName());
+		class AMannequin* OtherCharacter = Cast<AMannequin>(OtherActor);
 
-		UE_LOG(LogTemp, Warning, TEXT("OverLap: %s"), UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-
-		Destroy();
+		if (OtherCharacter )
+		{
+			float Setted = OtherCharacter->SetHealthpack(HealthPack);
+			HealthMesh->DestroyComponent();
+			if (CollectSound != NULL)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, CollectSound, GetActorLocation());
+				Destroy();
+			}
+			
+		}	
 	}
-	
-
 }
 
 void AHealthPowerUp::Tick(float DeltaTime)
