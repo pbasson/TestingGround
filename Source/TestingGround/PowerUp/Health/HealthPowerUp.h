@@ -7,6 +7,7 @@
 #include "HealthPowerUp.generated.h"
 
 class UGameplayStatics;
+class AMannequin;
 
 UCLASS()
 class TESTINGGROUND_API AHealthPowerUp : public AActor
