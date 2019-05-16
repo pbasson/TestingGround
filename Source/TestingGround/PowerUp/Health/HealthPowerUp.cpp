@@ -3,6 +3,7 @@
 #include "HealthPowerUp.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AHealthPowerUp::AHealthPowerUp()
 {
@@ -23,9 +24,6 @@ void AHealthPowerUp::BeginPlay()
 {
 	Super::BeginPlay();
 	
-
-
-	
 }
 
 
@@ -34,9 +32,9 @@ void AHealthPowerUp::OnOverlapBegin(UPrimitiveComponent * HitComp, AActor * Othe
 {
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && (OtherActor->GetName() == "Player"))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("OverLap: %s"), *OtherActor->GetName());
+	//	UE_LOG(LogTemp, Warning, TEXT("OverLap: %s"), *OtherActor->GetName());
 
-
+		UE_LOG(LogTemp, Warning, TEXT("OverLap: %s"), UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 		Destroy();
 	}
