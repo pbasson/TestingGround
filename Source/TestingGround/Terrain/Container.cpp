@@ -50,17 +50,10 @@ float AContainer::TakeDamage(float Damage, const FDamageEvent &DamageEvent, ACon
     {
         ImpactBlast->Activate();
         SetRootComponent(ImpactBlast);
+        UGameplayStatics::PlaySoundAtLocation(this, CollectSound, GetActorLocation());
 
         FTimerHandle Timer;
         GetWorld()->GetTimerManager().SetTimer(Timer, this, &AContainer::OnTimerExpire, DestroyDelay, false);
-     /*   UGameplayStatics::ApplyRadialDamage(
-            GetWorld(),
-            10.0f,
-            GetActorLocation(),
-            ExplosionForce->Radius,
-            UDamageType::StaticClass(),
-            TArray<AActor*>()
-            );*/
     }
     return HealthCurrent;
 }

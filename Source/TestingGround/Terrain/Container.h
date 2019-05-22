@@ -31,10 +31,13 @@ public:
     float HealthZero = 0.0f;
     float HealthCurrent;
 
-    float DestroyDelay = 3.0f;
+    float DestroyDelay = 0.50f;
 
     float TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser);
     float GetHealth() const;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    class USoundBase* CollectSound;
 
     UPROPERTY(VisibleAnywhere)
     UParticleSystemComponent* ImpactBlast;
