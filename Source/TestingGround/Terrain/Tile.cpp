@@ -3,7 +3,7 @@
 #include "Tile.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
-
+#include "ActorPool.h"
 
 // Sets default values
 ATile::ATile()
@@ -21,6 +21,7 @@ void ATile::BeginPlay()
 	
 
 }
+
 // Called every frame
 void ATile::Tick(float DeltaTime)
 {
@@ -87,3 +88,7 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector Spawnpoint, float Ro
 		Spawned->SetActorScale3D(FVector(Scale));
 }
 
+void ATile::SetPool(UActorPool* InPool)
+{
+	Pool = InPool;
+}

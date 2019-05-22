@@ -3,6 +3,12 @@
 #include "InfiniteGameMode.h"
 #include "Navmesh/NavMeshBoundsVolume.h"
 #include "EngineUtils.h"
+#include "ActorPool.h"
+
+AInfiniteGameMode::AInfiniteGameMode()
+{
+	NavMeshBoundsVolumePool = CreateAbstractDefaultSubobject<UActorPool>(TEXT("NavMeshBoundsVolumePool"));
+}
 
 void AInfiniteGameMode::AddToPool(class ANavMeshBoundsVolume *VolumeToAdd) 
 {

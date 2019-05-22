@@ -31,3 +31,16 @@ void UActorPool::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 	// ...
 }
 
+AActor * UActorPool::Checkout()
+{
+	return nullptr;
+}
+
+void UActorPool::ReturnActor(AActor * ActorToReturn)
+{
+}
+
+void UActorPool::AddActor(AActor * ActorToAdd)
+{
+}
+

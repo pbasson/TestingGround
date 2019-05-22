@@ -24,5 +24,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	AActor* Checkout();
+	void ReturnActor(AActor* ActorToReturn);
+	void AddActor(AActor* ActorToAdd);
 };

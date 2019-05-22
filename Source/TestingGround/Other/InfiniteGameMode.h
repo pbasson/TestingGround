@@ -14,8 +14,13 @@ class TESTINGGROUND_API AInfiniteGameMode : public ATGGameMode
 	GENERATED_BODY()
 
 public:
+	AInfiniteGameMode();
 	UFUNCTION(BlueprintCallable, Category = "Bounds")
 	void PopulateBoundsVolumePool();
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pool")
+	class UActorPool* NavMeshBoundsVolumePool;
 
 private:
 	void AddToPool(class ANavMeshBoundsVolume* VolumeToAdd);
