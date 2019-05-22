@@ -27,6 +27,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	void EndPlay(const EEndPlayReason::Type EEndPlayReason);
+
 
 private:
 
@@ -35,4 +37,7 @@ private:
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector Spawnpoint, float Rotation, float Scale);
 	bool CanSpawnAtLocation(FVector Location, float Radius);
 	UActorPool* Pool; 
+	void PositionNavMesh();
+
+	AActor* NavMeshVolume;
 };

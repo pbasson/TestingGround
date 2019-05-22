@@ -22,6 +22,11 @@ void ATile::BeginPlay()
 
 }
 
+void ATile::EndPlay(const EEndPlayReason::Type EEndPlayReason)
+{
+	Pool->ReturnActor(NavMeshVolume);
+}
+
 // Called every frame
 void ATile::Tick(float DeltaTime)
 {
@@ -41,7 +46,6 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 }
 
 
-
 void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
 	int NumberToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
@@ -55,7 +59,6 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn,
 			float Rotation = FMath::RandRange(-180.0f, 180.0f);
 			PlaceActor(ToSpawn, Spawnpoint, Rotation, RandomScale);
 		}
-
 	}
 }
 
@@ -75,7 +78,6 @@ bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 			return true; 
 		}
 	}
-
 	return false;
 }
 
@@ -91,4 +93,15 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector Spawnpoint, float Ro
 void ATile::SetPool(UActorPool* InPool)
 {
 	Pool = InPool;
+	PositionNavMesh();
+}
+
+void ATile::PositionNavMesh()
+{
+	AActor* NavMeshBounds = Pool->Checkout();
+	if (NavMeshBounds == nullptr)
+	{
+		return; 
+	}
+	NavMeshBounds->SetActorLocation(GetActorLocation());
 }

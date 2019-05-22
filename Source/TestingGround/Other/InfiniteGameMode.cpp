@@ -12,7 +12,7 @@ AInfiniteGameMode::AInfiniteGameMode()
 
 void AInfiniteGameMode::AddToPool(class ANavMeshBoundsVolume *VolumeToAdd) 
 {
-
+	NavMeshBoundsVolumePool->AddActor(VolumeToAdd);
 }
 
 void AInfiniteGameMode::PopulateBoundsVolumePool() 
