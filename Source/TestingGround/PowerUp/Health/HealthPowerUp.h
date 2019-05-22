@@ -7,6 +7,7 @@
 #include "HealthPowerUp.generated.h"
 
 class UGameplayStatics;
+class AMannequin;
 
 UCLASS()
 class TESTINGGROUND_API AHealthPowerUp : public AActor
@@ -28,6 +29,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class USoundBase* CollectSound;
+
+	void HealthIncrease(AActor * OtherActor);
 
 	float HealthPack = 25.0f;
 	float Radius = 100.0f;
