@@ -38,6 +38,7 @@ void AHealthPowerUp::OnOverlapBegin(UPrimitiveComponent * HitComp, AActor * Othe
 		if (OtherCharacter )
 		{
 			float Setted = OtherCharacter->SetHealthpack(HealthPack);
+<<<<<<< HEAD
 			HealthMesh->DestroyComponent();
 			if (CollectSound != NULL)
 			{
@@ -46,6 +47,13 @@ void AHealthPowerUp::OnOverlapBegin(UPrimitiveComponent * HitComp, AActor * Othe
 			}
 			
 		}	
+=======
+			UE_LOG(LogTemp, Warning, TEXT("Health: %f"), Setted);
+		}
+		//	UE_LOG(LogTemp, Warning, TEXT("OverLap: %s"), *OtherActor->GetName());
+
+//		Destroy();
+>>>>>>> e0bf0ef511ba7fe6f03ca3473c3af9d2172b825e
 	}
 }
 
