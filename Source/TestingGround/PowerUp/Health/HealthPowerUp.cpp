@@ -36,31 +36,7 @@ void AHealthPowerUp::OnOverlapBegin(UPrimitiveComponent * HitComp, AActor * Othe
 {
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && (OtherActor->GetName() == "Player"))
 	{
-<<<<<<< HEAD
 		HealthIncrease(OtherActor);
-=======
-		class AMannequin* OtherCharacter = Cast<AMannequin>(OtherActor);
-
-		if (OtherCharacter )
-		{
-			float Setted = OtherCharacter->SetHealthpack(HealthPack);
-<<<<<<< HEAD
-			HealthMesh->DestroyComponent();
-			if (CollectSound != NULL)
-			{
-				UGameplayStatics::PlaySoundAtLocation(this, CollectSound, GetActorLocation());
-				Destroy();
-			}
-			
-		}	
-=======
-			UE_LOG(LogTemp, Warning, TEXT("Health: %f"), Setted);
-		}
-		//	UE_LOG(LogTemp, Warning, TEXT("OverLap: %s"), *OtherActor->GetName());
-
-//		Destroy();
->>>>>>> e0bf0ef511ba7fe6f03ca3473c3af9d2172b825e
->>>>>>> 2a5852ae39bd14318db66a7875425e2f77f1d6a7
 	}
 }
 
