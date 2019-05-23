@@ -24,4 +24,5 @@ protected:
 
 private:
 	void AddToPool(class ANavMeshBoundsVolume* VolumeToAdd);
+
 };

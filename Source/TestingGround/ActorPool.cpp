@@ -33,22 +33,21 @@ void UActorPool::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 
 AActor * UActorPool::Checkout()
 {
-	return nullptr;
+	if (ThePool.Num() == 0)
+	{
+		return nullptr;
+
+	}
+	return ThePool.Pop();
 }
 
 void UActorPool::ReturnActor(AActor * ActorToReturn)
 {
-	if (ActorToReturn == nullptr)
-	{
-		return;
-	}
+	AddActor(ActorToReturn);
 }
 
 void UActorPool::AddActor(AActor * ActorToAdd)
 {
-	if (ActorToAdd == nullptr)
-	{
-		return;
-	}
+	ThePool.Push(ActorToAdd);
 }
 

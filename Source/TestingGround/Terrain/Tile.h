@@ -7,6 +7,7 @@
 #include "Tile.generated.h"
 
 class UActorPool; 
+class UWorld;
 
 UCLASS()
 class TESTINGGROUND_API ATile : public AActor
@@ -29,6 +30,14 @@ protected:
 	virtual void BeginPlay() override;
 	void EndPlay(const EEndPlayReason::Type EEndPlayReason);
 
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	FVector MinExtent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	FVector MaxExtent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
+	FVector NavigationRound;
 
 private:
 

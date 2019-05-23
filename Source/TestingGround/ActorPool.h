@@ -27,4 +27,7 @@ public:
 	AActor* Checkout();
 	void ReturnActor(AActor* ActorToReturn);
 	void AddActor(AActor* ActorToAdd);
+
+private: 
+	TArray<AActor*> ThePool;
 };
