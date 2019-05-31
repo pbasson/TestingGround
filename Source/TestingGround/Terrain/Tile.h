@@ -9,6 +9,16 @@
 class UActorPool; 
 class UWorld;
 
+USTRUCT()
+struct FSpawnPosition
+{
+	GENERATED_USTRUCT_BODY()
+
+	FVector Location;
+	float Rotation;
+	float Scale;
+};
+
 UCLASS()
 class TESTINGGROUND_API ATile : public AActor
 {
@@ -39,11 +49,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
 	FVector NavigationRound;
 
+	void PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosition);
+
 private:
 
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
+	TArray<FSpawnPosition> RandomSpawnPosition(int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale);
 
-	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector Spawnpoint, float Rotation, float Scale);
+
 	bool CanSpawnAtLocation(FVector Location, float Radius);
 	UActorPool* Pool; 
 	void PositionNavMesh();
