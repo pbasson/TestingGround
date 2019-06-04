@@ -28,8 +28,12 @@ public:
 	// Sets default values for this actor's properties
 	ATile();
 
-	UFUNCTION(BlueprintCallable, Category = "Weapons")
+	UFUNCTION(BlueprintCallable, Category = "Spawning")
 	void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius = 500, float MinScale = 1, float MaxScale = 1);
+
+	UFUNCTION(BlueprintCallable, Category = "Spawning")
+	void PlaceAIPawn(TSubclassOf<APawn> ToSpawn, int MinSpawn, int MaxSpawn, float Radius = 500);
+
 
 	UFUNCTION(BlueprintCallable, Category = "Pool")
 	void SetPool(UActorPool* InPool);
@@ -49,13 +53,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
 	FVector NavigationRound;
 
-	void PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosition);
+
 
 private:
 
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
 	TArray<FSpawnPosition> RandomSpawnPosition(int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale);
 
+	void PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosition);
+	void PlaceAI(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition);
 
 	bool CanSpawnAtLocation(FVector Location, float Radius);
 	UActorPool* Pool; 

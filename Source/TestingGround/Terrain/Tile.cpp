@@ -58,6 +58,15 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn,
 	}
 }
 
+void ATile::PlaceAIPawn(TSubclassOf<APawn> ToSpawn, int MinSpawn, int MaxSpawn, float Radius)
+{
+	TArray<FSpawnPosition> SpawnPositions = RandomSpawnPosition(MinSpawn, MaxSpawn, Radius,1,1);
+	for (FSpawnPosition SpawnPosition : SpawnPositions)
+	{
+		PlaceAI(ToSpawn, SpawnPosition);
+	}
+}
+
 
 bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 {
@@ -92,16 +101,26 @@ TArray<FSpawnPosition> ATile::RandomSpawnPosition(int MinSpawn, int MaxSpawn, fl
 			//	PlaceActor(ToSpawn, SpawnPosition);
 		}
 	}
-	return SpawnPositions;
+	return SpawnPositions;;
 }
 
 void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosition)
 {
-		AActor* Spawned = GetWorld()->SpawnActor<AActor>(ToSpawn);
-		Spawned->SetActorRelativeLocation(SpawnPosition.Location);
-		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-		Spawned->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
-		Spawned->SetActorScale3D(FVector(SpawnPosition.Scale));
+	AActor* Spawned = GetWorld()->SpawnActor<AActor>(ToSpawn);
+	Spawned->SetActorRelativeLocation(SpawnPosition.Location);
+	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+	Spawned->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
+	Spawned->SetActorScale3D(FVector(SpawnPosition.Scale));
+}
+
+void ATile::PlaceAI(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition)
+{
+	APawn* Spawned = GetWorld()->SpawnActor<APawn>(ToSpawn);
+	Spawned->SetActorRelativeLocation(SpawnPosition.Location);
+	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+	Spawned->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
+	Spawned->SpawnDefaultController();
+	Spawned->Tags.Add(FName("Enemy"));
 }
 
 void ATile::SetPool(UActorPool* InPool)
@@ -120,3 +139,4 @@ void ATile::PositionNavMesh()
 		NavMeshBounds->SetActorLocation(GetActorLocation() + NavigationRound);
 		FNavigationSystem::Build(*GetWorld());
 }
+
