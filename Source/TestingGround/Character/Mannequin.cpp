@@ -8,6 +8,7 @@
 #include "Animation/AnimInstance.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
+#include "WidgetComponent.h"
 
 
 // Sets default values
@@ -41,6 +42,8 @@ AMannequin::AMannequin()
 	FPMesh->RelativeRotation = FRotator(1.9f, -19.19f, 5.2f);
 	FPMesh->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);
 	GunOffset = FVector(100.0f, 0.0f, 10.0f);
+
+	MannequinWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthWidge"));
 }
 
 // Called when the game starts or when spawned

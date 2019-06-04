@@ -31,8 +31,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void PullTrigger();
+
+	UPROPERTY(VisibleDefaultsOnly, Category = HUD)
+	class UWidgetComponent* MannequinWidget;
 
     virtual float TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser);
 
@@ -46,6 +47,9 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Default, meta = (ClampMin = "0.0", ClampMax = "100.0", UIMin = "0.0", UIMax = "100.0"))
     float HealthCurrent;
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void PullTrigger();
 
     UFUNCTION(BlueprintPure, Category = "Health")
     float GetHealth() const;
