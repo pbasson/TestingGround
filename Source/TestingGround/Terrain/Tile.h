@@ -25,22 +25,22 @@ class TESTINGGROUND_API ATile : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+
 	ATile();
 
 	UFUNCTION(BlueprintCallable, Category = "Spawning")
-	void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius = 500, float MinScale = 1, float MaxScale = 1);
+	void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn);
 
 	UFUNCTION(BlueprintCallable, Category = "Spawning")
-	void PlaceAIPawn(TSubclassOf<APawn> ToSpawn, int MinSpawn, int MaxSpawn, float Radius = 500);
-
+	void PlaceAIPawn(TSubclassOf<APawn> ToSpawn, int MinSpawn, int MaxSpawn);
 
 	UFUNCTION(BlueprintCallable, Category = "Pool")
 	void SetPool(UActorPool* InPool);
 
 	virtual void Tick(float DeltaTime) override;
+
 protected:
-	// Called when the game starts or when spawned
+
 	virtual void BeginPlay() override;
 	void EndPlay(const EEndPlayReason::Type EEndPlayReason);
 
@@ -58,10 +58,13 @@ protected:
 private:
 
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
-	TArray<FSpawnPosition> RandomSpawnPosition(int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale);
 
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPosition);
 	void PlaceAI(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition);
+
+	template<class T>
+	void RandomlySpawn(TSubclassOf<T> ToSpawn, int MinSpawn, int MaxSpawn, float Radius = 500, float MinScale = 1, float MaxScale = 1);
+
 
 	bool CanSpawnAtLocation(FVector Location, float Radius);
 	UActorPool* Pool; 
@@ -69,3 +72,5 @@ private:
 
 	AActor* NavMeshVolume;
 };
+
+
