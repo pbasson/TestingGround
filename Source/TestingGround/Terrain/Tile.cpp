@@ -121,8 +121,6 @@ void ATile::PlaceActor(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition)
 	}
 }
 
-
-
 void ATile::SetPool(UActorPool* InPool)
 {
 	Pool = InPool;

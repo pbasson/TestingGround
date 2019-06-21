@@ -31,8 +31,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-
-	UPROPERTY(VisibleDefaultsOnly, Category = HUD)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = HUD)
 	class UWidgetComponent* MannequinWidget;
 
     virtual float TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser);
@@ -78,6 +77,8 @@ private:
 
 	void GunSetup();
 
+	void UnPossessedDamage();
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	class USkeletalMeshComponent* FPMesh;
 
@@ -88,7 +89,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	AGun* Gun = nullptr;
 
-	float MovementZero; 
+	float MovementZero = 0; 
 
   
 };

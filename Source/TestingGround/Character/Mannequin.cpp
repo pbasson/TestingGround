@@ -25,7 +25,6 @@ AMannequin::AMannequin()
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
-	MovementZero = 0.0f; 
 
 
 	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPCamera"));
@@ -104,12 +103,23 @@ void AMannequin::GunSetup()
 	if (GunBlueprint == NULL) { return; }
 
 	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
+
 	if (IsPlayerControlled()) { Gun->AttachToComponent(FPMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); }
+
 	else { Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); }
 	// AttachToComponent to Socket of the Skeleton
 	Gun->AnimInstanceFP = FPMesh->GetAnimInstance();
 	Gun->AnimInstanceTP = GetMesh()->GetAnimInstance();
 
+}
+
+void AMannequin::UnPossessedDamage()
+{
+	DetachFromControllerPendingDestroy();
+	UnPossessed();
+
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::EnemyDestroy, DestroyDelay, false);
 }
 
 void AMannequin::PullTrigger()
@@ -119,14 +129,12 @@ void AMannequin::PullTrigger()
 
 float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
 {
-    if(HealthCurrent > HealthZero) { HealthCurrent = HealthCurrent - Damage; }
+    if (HealthCurrent > HealthZero)
+	{ HealthCurrent = HealthCurrent - Damage; }
 
-    if (HealthCurrent == HealthZero) {
-        DetachFromControllerPendingDestroy();
-        UnPossessed();
-        FTimerHandle Timer;
-        GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::EnemyDestroy, DestroyDelay, false);
-    }
+    if (HealthCurrent == HealthZero)
+	{ UnPossessedDamage(); }
+
     return HealthCurrent;
 }
 
@@ -138,14 +146,10 @@ float AMannequin::GetHealth() const
 float AMannequin::SetHealthpack(float Healthpack)
 {
 	if (HealthCurrent < HealthMax && HealthCurrent > 75.0f)
-	{
-		HealthCurrent = HealthMax;
-	}
-	else if (HealthCurrent < HealthMax)
-	{
-		HealthCurrent = HealthCurrent + Healthpack;
-	}
+	{ HealthCurrent = HealthMax;}
 
+	else if (HealthCurrent < HealthMax)
+	{ HealthCurrent = HealthCurrent + Healthpack; }
 
 	return HealthCurrent;
 }
@@ -153,6 +157,7 @@ float AMannequin::SetHealthpack(float Healthpack)
 void AMannequin::UnPossessed()
 {
 	Super::UnPossessed();
+
 	if (Gun != nullptr)
     { Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); }
 }

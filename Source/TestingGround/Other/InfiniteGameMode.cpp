@@ -24,3 +24,8 @@ void AInfiniteGameMode::PopulateBoundsVolumePool()
 		++VolumeIterator;
 	}
 }
+
+int AInfiniteGameMode::GetScore()
+{
+	return ScoreValue;
+}
