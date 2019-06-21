@@ -8,6 +8,7 @@
 AInfiniteGameMode::AInfiniteGameMode()
 {
 	NavMeshBoundsVolumePool = CreateAbstractDefaultSubobject<UActorPool>(TEXT("NavMeshBoundsVolumePool"));
+	ScoreValue = 0;
 }
 
 void AInfiniteGameMode::AddToPool(class ANavMeshBoundsVolume *VolumeToAdd) 
@@ -25,7 +26,12 @@ void AInfiniteGameMode::PopulateBoundsVolumePool()
 	}
 }
 
-int AInfiniteGameMode::GetScore()
+FString AInfiniteGameMode::GetScoreValue()
 {
-	return ScoreValue;
+	return "Score: " + FString::FromInt(ScoreValue);
+}
+
+int AInfiniteGameMode::SetScoreValue()
+{
+	return ++ScoreValue;
 }

@@ -14,7 +14,6 @@ AMannequinHUD::AMannequinHUD()
 	CrosshairTex = CrosshairTexObj.Object;
 }
 
-
 void AMannequinHUD::DrawHUD()
 {
 	Super::DrawHUD();
