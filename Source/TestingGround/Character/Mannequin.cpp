@@ -42,7 +42,7 @@ AMannequin::AMannequin()
 	FPMesh->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);
 	GunOffset = FVector(100.0f, 0.0f, 10.0f);
 
-	MannequinWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthWidge"));
+	MannequinWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthWidget"));
 }
 
 // Called when the game starts or when spawned
