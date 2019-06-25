@@ -8,19 +8,42 @@
 // Sets default values
 AGun::AGun()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	//PrimaryActorTick.bCanEverTick = true;
 	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
 	FP_Gun->bCastDynamicShadow = false;
 	FP_Gun->CastShadow = false;
-	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
 	FP_Gun->SetupAttachment(RootComponent);
 
 	FP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
 	FP_MuzzleLocation->SetupAttachment(FP_Gun);
-//	FP_MuzzleLocation->SetRelativeLocation(FVector(0.2f, 60.0f, 11.0f));
 	FP_MuzzleLocation->SetRelativeLocationAndRotation(FVector(0.2f, 60.0f, 11.0f),FQuat(0.0f,0.0f,90.0f, 0.0f));
-//	FP_MuzzleLocation->SetRelativeRotation(FQuat(0.0f, 0.0f, -40.0f, 0.0f));
+
+	AmmoCurrent = AmmoClip; 
+	MaxAmmo = 180;
+}
+
+void AGun::ReloadGun()
+{
+	FMath::Clamp(MaxAmmo, 0, 180);
+	FMath::Clamp(AmmoCurrent, 0, 18);
+
+	if (AmmoCurrent == 0)
+	{
+//		if (AmmoCurrent = AmmoClip)
+		UE_LOG(LogTemp, Warning,TEXT("Ammo Zero"))
+		if (MaxAmmo > AmmoClip)
+		{
+			FiringStatus = EFiringStatus::Reloading;
+			MaxAmmo = MaxAmmo - AmmoClip;
+			AmmoCurrent = AmmoClip;
+		}
+		else if (MaxAmmo <= AmmoClip)
+		{
+			UE_LOG(LogTemp, Warning, TEXT(" OutAmmo"))
+			FiringStatus = EFiringStatus::OutAmmo;
+			AmmoCurrent = MaxAmmo;
+			MaxAmmo = 0;
+		}
+	}
 }
 
 // Called when the game starts or when spawned
@@ -28,10 +51,34 @@ void AGun::BeginPlay()
 {
 	Super::BeginPlay();
 
-//	FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 }
 
 void AGun::OnFire()
+{
+	if (AmmoCurrent > 0)
+	{
+		InitialFire();
+		AmmoCurrent--;
+	}
+	ReloadGun();
+}
+
+EFiringStatus AGun::GetFiringStatus() const
+{
+	return FiringStatus;
+}
+
+int AGun::GetAmmo() const
+{
+	return AmmoCurrent;
+}
+
+int AGun::GetMaxAmmo() const
+{
+	return MaxAmmo;
+}
+
+void AGun::InitialFire()
 {
 	// try and fire a projectile
 	if (ProjectileClass != NULL)
@@ -42,15 +89,14 @@ void AGun::OnFire()
 			const FRotator SpawnRotation = FP_MuzzleLocation->GetComponentRotation(); // Set Rotation
 			const FVector SpawnLocation = FP_MuzzleLocation->GetComponentLocation();  // Set Location
 
-			//Set Spawn Collision Handling Override
+																					  //Set Spawn Collision Handling Override
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 			// spawn the projectile at the muzzle
-            World->SpawnActor<AGunProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			World->SpawnActor<AGunProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 		}
 	}
-
 	// try and play the sound if specified
 	if (FireSound != NULL)
 	{
@@ -60,7 +106,7 @@ void AGun::OnFire()
 	// try and play a firing animation if specified
 	if (FireAnimationTP != nullptr && AnimInstanceTP != nullptr)
 	{
-		if (AnimInstanceTP != NULL)	{ AnimInstanceTP->Montage_Play(FireAnimationTP, 1.f); }
+		if (AnimInstanceTP != NULL) { AnimInstanceTP->Montage_Play(FireAnimationTP, 1.f); }
 	}
 	if (FireAnimationFP != nullptr && AnimInstanceFP != nullptr)
 	{

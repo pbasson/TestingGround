@@ -6,6 +6,15 @@
 #include "GameFramework/Actor.h"
 #include "Gun.generated.h"
 
+UENUM()
+enum class EFiringStatus : uint8
+{
+	OutAmmo,
+	Aiming,
+	Reloading
+};
+
+
 UCLASS()
 class TESTINGGROUND_API AGun : public AActor
 {
@@ -47,12 +56,46 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
     void OnFire();
 
+	EFiringStatus GetFiringStatus() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Fire")
+	int GetAmmo() const;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int MaxAmmo;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int AmmoCurrent;
+	
+	UFUNCTION(BlueprintCallable, Category = "Fire")
+	int GetMaxAmmo() const;
+
+	void ReloadGun();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int AmmoClip = 18;
+
+	void InitialFire();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+
+private:
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float LaunchSpeed = 10000;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float ReloadTimeInSeconds = 3.0f;
+
+
 
 };
