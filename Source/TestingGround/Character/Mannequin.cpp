@@ -172,10 +172,16 @@ int AMannequin::GetGunMaxAmmo() const
 void AMannequin::ReloadGun()
 {
 	if (Gun)
-	{
-		Gun->ReloadGun();
-	}
+	{ Gun->ReloadGun(); }
 
+}
+
+void AMannequin::AmmoIncrease()
+{
+	if (Gun)
+	{
+		Gun->AmmoIncrease();
+	}
 }
 
 void AMannequin::UnPossessed()

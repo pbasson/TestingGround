@@ -66,6 +66,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void ReloadGun();
 
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void AmmoIncrease();
+
 	virtual void UnPossessed() override;
 
     float DestroyDelay = 2.0f;

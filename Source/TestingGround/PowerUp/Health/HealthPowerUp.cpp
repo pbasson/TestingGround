@@ -35,9 +35,7 @@ void AHealthPowerUp::Tick(float DeltaTime)
 void AHealthPowerUp::OnOverlapBegin(UPrimitiveComponent * HitComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && (OtherActor->GetName() == "Player"))
-	{
-		HealthIncrease(OtherActor);
-	}
+	{ HealthIncrease(OtherActor); }
 }
 
 void AHealthPowerUp::HealthIncrease(AActor * OtherActor)
@@ -46,9 +44,8 @@ void AHealthPowerUp::HealthIncrease(AActor * OtherActor)
 
 	if (OtherCharacter != nullptr && CollectSound != nullptr)
 	{
-		float Setted = OtherCharacter->SetHealthpack(HealthPack);
+		OtherCharacter->SetHealthpack(HealthPack);
 		UGameplayStatics::PlaySoundAtLocation(this, CollectSound, GetActorLocation());
-		//HealthMesh->DestroyComponent();
 		Destroy();
 	}
 }

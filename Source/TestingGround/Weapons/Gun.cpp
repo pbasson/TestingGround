@@ -26,31 +26,39 @@ void AGun::ReloadGun()
 	FMath::Clamp(MaxAmmo, 0, 180);
 	FMath::Clamp(AmmoCurrent, 0, 18);
 
-	if (AmmoCurrent == 0)
+
+	if (MaxAmmo > AmmoClip)
 	{
-//		if (AmmoCurrent = AmmoClip)
-		UE_LOG(LogTemp, Warning,TEXT("Ammo Zero"))
-		if (MaxAmmo > AmmoClip)
+		if (AmmoCurrent != AmmoClip)
 		{
-			FiringStatus = EFiringStatus::Reloading;
-			MaxAmmo = MaxAmmo - AmmoClip;
+			AmmoReminder = AmmoClip - AmmoCurrent;
 			AmmoCurrent = AmmoClip;
-		}
-		else if (MaxAmmo <= AmmoClip)
-		{
-			UE_LOG(LogTemp, Warning, TEXT(" OutAmmo"))
-			FiringStatus = EFiringStatus::OutAmmo;
-			AmmoCurrent = MaxAmmo;
-			MaxAmmo = 0;
+			MaxAmmo = MaxAmmo - AmmoReminder;
+
+			FiringStatus = EFiringStatus::Reloading;
 		}
 	}
+	else if (MaxAmmo <= AmmoClip)
+	{
+		UE_LOG(LogTemp, Warning, TEXT(" OutAmmo"))
+		FiringStatus = EFiringStatus::OutAmmo;
+		AmmoCurrent = MaxAmmo;
+		MaxAmmo = 0;
+	}
+}
+
+void AGun::AmmoIncrease()
+{
+	FMath::Clamp(MaxAmmo, 0, 180);
+	if (MaxAmmo != 180)
+	{ MaxAmmo = MaxAmmo + AmmoClip;	}
+
 }
 
 // Called when the game starts or when spawned
 void AGun::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void AGun::OnFire()

@@ -58,7 +58,7 @@ public:
 
 	EFiringStatus GetFiringStatus() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Fire")
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	int GetAmmo() const;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
@@ -67,11 +67,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	int AmmoCurrent;
 	
-	UFUNCTION(BlueprintCallable, Category = "Fire")
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	int GetMaxAmmo() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void ReloadGun();
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void AmmoIncrease();
 
 protected:
 	// Called when the game starts or when spawned
@@ -79,6 +82,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	int AmmoClip = 18;
+
+	int AmmoReminder;
 
 	void InitialFire();
 
