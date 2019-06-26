@@ -50,7 +50,10 @@ void AMannequin::BeginPlay()
 {
 	Super::BeginPlay();
 	GunSetup();
-	if (InputComponent != NULL) { InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger); }
+	if (InputComponent != NULL) { 
+		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger); 
+		InputComponent->BindAction("Reload", IE_Pressed, this, &AMannequin::ReloadGun);
+	}
 }
 
 // Called every frame
@@ -67,6 +70,8 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+//	PlayerInputComponent->BindAction("Reload", IE_Pressed, this &AMannequin::ReloadGun);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMannequin::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMannequin::MoveRight);
@@ -162,6 +167,15 @@ int AMannequin::GetGunAmmo() const
 int AMannequin::GetGunMaxAmmo() const
 {
 	return Gun->GetMaxAmmo();
+}
+
+void AMannequin::ReloadGun()
+{
+	if (Gun)
+	{
+		Gun->ReloadGun();
+	}
+
 }
 
 void AMannequin::UnPossessed()

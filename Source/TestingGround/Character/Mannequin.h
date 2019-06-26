@@ -63,6 +63,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 	int GetGunMaxAmmo() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void ReloadGun();
 
 	virtual void UnPossessed() override;
 

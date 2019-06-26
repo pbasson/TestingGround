@@ -60,7 +60,6 @@ void AGun::OnFire()
 		InitialFire();
 		AmmoCurrent--;
 	}
-	ReloadGun();
 }
 
 EFiringStatus AGun::GetFiringStatus() const
