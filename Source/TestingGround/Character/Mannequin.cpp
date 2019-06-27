@@ -52,7 +52,7 @@ void AMannequin::BeginPlay()
 	GunSetup();
 	if (InputComponent != NULL) { 
 		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger); 
-		InputComponent->BindAction("Reload", IE_Pressed, this, &AMannequin::ReloadGun);
+        InputComponent->BindAction("Reload", IE_Pressed, this, &AMannequin::ReloadDelayGun);
 	}
 }
 
@@ -173,8 +173,14 @@ int AMannequin::GetGunMaxAmmo() const
 void AMannequin::ReloadGun()
 {
 	if (Gun)
-	{ Gun->ReloadGun(); }
+    { Gun->ReloadGun(); }
 
+}
+
+void AMannequin::ReloadDelayGun()
+{
+    FTimerHandle Timer;
+    GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::ReloadGun, ReloadDelay, false);
 }
 
 void AMannequin::AmmoIncrease()

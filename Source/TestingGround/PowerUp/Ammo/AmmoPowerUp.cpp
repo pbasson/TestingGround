@@ -13,11 +13,14 @@ AAmmoPowerUp::AAmmoPowerUp()
 	CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
 	CollisionSphere->InitSphereRadius(Radius);
 	CollisionSphere->SetCollisionProfileName("Trigger");
+    CollisionSphere->SetRelativeLocation(FVector(0.0f, 0.0f, 200.0f));
+    CollisionSphere->SetRelativeScale3D(FVector(0.5f,0.5f,0.5f));
 	RootComponent = CollisionSphere;
 
 	AmmoMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("AmmoMesh"));
-	AmmoMesh->SetRelativeScale3D(FVector(0.5, 0.5, 0.5));
-	AmmoMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+    AmmoMesh->SetupAttachment(RootComponent);
+  //  AmmoMesh->SetRelativeScale3D(FVector(0.5, 0.5, 0.5));
+    AmmoMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -50.0f));
 	CollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &AAmmoPowerUp::OnOverlapBegin);
 }
 

@@ -65,6 +65,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void ReloadGun();
 
+    UFUNCTION(BlueprintCallable, Category = "Weapon")
+    void ReloadDelayGun();
+
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 	void AmmoIncrease();
 
@@ -96,8 +99,10 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	AGun* Gun = nullptr;
 
-	float MovementZero = 0; 
-	float DestroyDelay = 2.0f;
+    float MovementZero = 0;
+    float DestroyDelay = 2.0f;
+    float ReloadDelay = 0.5f;
+
 
 	const float HealthZero = 0.0f;
 	const float HealthMax = 100.0f;

@@ -26,17 +26,12 @@ void AGun::ReloadGun()
 	MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
 	AmmoCurrent = FMath::Clamp(AmmoCurrent, 0, 18);
 
-
-	if (MaxAmmo > AmmoClip)
+    if (MaxAmmo > AmmoClip && AmmoCurrent < AmmoClip)
 	{
-		if (AmmoCurrent != AmmoClip)
-		{
-			AmmoReminder = AmmoClip - AmmoCurrent;
-			AmmoCurrent = AmmoClip;
-			MaxAmmo = MaxAmmo - AmmoReminder;
-
-			FiringStatus = EFiringStatus::Reloading;
-		}
+        AmmoReminder = AmmoClip - AmmoCurrent;
+        AmmoCurrent = AmmoClip;
+        MaxAmmo = MaxAmmo - AmmoReminder;
+        FiringStatus = EFiringStatus::Reloading;
 	}
 	else if (MaxAmmo <= AmmoClip)
 	{

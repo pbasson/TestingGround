@@ -12,10 +12,13 @@ AHealthPowerUp::AHealthPowerUp()
 	CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
 	CollisionSphere->InitSphereRadius(Radius);
 	CollisionSphere->SetCollisionProfileName("Trigger");
+    CollisionSphere->SetRelativeScale3D(FVector(0.5f,0.5f,0.5f));
 	RootComponent = CollisionSphere;
 
 	HealthMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HealthMesh"));
-	HealthMesh->SetRelativeScale3D(FVector(0.5, 0.5, 0.5));
+//	HealthMesh->SetRelativeScale3D(FVector(0.5, 0.5, 0.5));
+    HealthMesh->SetupAttachment(RootComponent);
+    HealthMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -50.0f));
 	CollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &AHealthPowerUp::OnOverlapBegin);
 
 }
