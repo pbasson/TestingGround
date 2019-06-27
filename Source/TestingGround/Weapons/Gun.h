@@ -80,8 +80,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int AmmoClip = 18;
+	const int AmmoClip = 18;
 
 	int AmmoReminder;
 

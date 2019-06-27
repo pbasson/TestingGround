@@ -56,7 +56,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float SetHealthpack(float Healthpack);
 
-
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 	int GetGunAmmo() const;
 
@@ -66,15 +65,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void ReloadGun();
 
-	UFUNCTION(BlueprintCallable, Category = "Firing")
+	UFUNCTION(BlueprintCallable, Category = "Fire")
 	void AmmoIncrease();
 
 	virtual void UnPossessed() override;
-
-    float DestroyDelay = 2.0f;
-    void EnemyDestroy();
-	const float HealthZero = 0.0f;
-	const float HealthMax = 100.0f;
+	void EnemyDestroy();
 
 protected:
 	// Called when the game starts or when spawned
@@ -84,7 +79,6 @@ protected:
 	void MoveRight(float Value);
 	void TurnAtRate(float Rate);
 	void LookUpAtRate(float Rate);
-
 
 private:
 
@@ -103,6 +97,8 @@ private:
 	AGun* Gun = nullptr;
 
 	float MovementZero = 0; 
+	float DestroyDelay = 2.0f;
 
-  
+	const float HealthZero = 0.0f;
+	const float HealthMax = 100.0f;
 };

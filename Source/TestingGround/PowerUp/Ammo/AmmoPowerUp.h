@@ -31,8 +31,6 @@ public:
 	class USoundBase* AmmoSound;
 
 	void AmmoIncrease(AActor * OtherActor);
-
-	float AmmoClip = 18.0f;
 	float Radius = 100.0f;
 
 

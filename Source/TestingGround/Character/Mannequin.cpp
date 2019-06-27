@@ -129,7 +129,8 @@ void AMannequin::UnPossessedDamage()
 
 void AMannequin::PullTrigger()
 {
-	if (Gun) { Gun->OnFire(); }
+	if (Gun) 
+	{ Gun->OnFire(); }
 }
 
 float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
@@ -179,9 +180,7 @@ void AMannequin::ReloadGun()
 void AMannequin::AmmoIncrease()
 {
 	if (Gun)
-	{
-		Gun->AmmoIncrease();
-	}
+	{ Gun->AmmoIncrease(); }
 }
 
 void AMannequin::UnPossessed()

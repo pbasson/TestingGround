@@ -49,13 +49,8 @@ void AGun::ReloadGun()
 
 void AGun::AmmoIncrease()
 {
-	//MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
-	if (MaxAmmo < 180)
-	{	
-		MaxAmmo += AmmoClip;	
-		MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
-	}
-
+	MaxAmmo += AmmoClip;	
+	MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
 }
 
 // Called when the game starts or when spawned
@@ -98,12 +93,11 @@ void AGun::InitialFire()
 		{
 			const FRotator SpawnRotation = FP_MuzzleLocation->GetComponentRotation(); // Set Rotation
 			const FVector SpawnLocation = FP_MuzzleLocation->GetComponentLocation();  // Set Location
-
-																					  //Set Spawn Collision Handling Override
-			FActorSpawnParameters ActorSpawnParams;
+			
+			FActorSpawnParameters ActorSpawnParams; //Set Spawn Collision Handling Override
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
-			// spawn the projectile at the muzzle
+			//Spawn the projectile at the muzzle
 			World->SpawnActor<AGunProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 		}
 	}
