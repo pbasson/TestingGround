@@ -71,6 +71,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 	void AmmoIncrease();
 
+    UFUNCTION(BlueprintCallable, Category = "Firing")
+    bool OutOfAmmo() const;
+
 	virtual void UnPossessed() override;
 	void EnemyDestroy();
 

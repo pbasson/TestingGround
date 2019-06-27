@@ -186,9 +186,15 @@ void AMannequin::ReloadDelayGun()
 void AMannequin::AmmoIncrease()
 {
 	if (Gun)
-	{ Gun->AmmoIncrease(); }
+    { Gun->AmmoIncrease(); }
 }
 
+bool AMannequin::OutOfAmmo() const
+{
+    if (Gun)
+    { return Gun->OutOfAmmo(); }
+    return false;
+}
 void AMannequin::UnPossessed()
 {
 	Super::UnPossessed();

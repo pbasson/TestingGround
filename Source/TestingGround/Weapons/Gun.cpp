@@ -75,7 +75,16 @@ int AGun::GetAmmo() const
 
 int AGun::GetMaxAmmo() const
 {
-	return MaxAmmo;
+    return MaxAmmo;
+}
+
+bool AGun::OutOfAmmo() const
+{
+    if (AmmoCurrent == 0 && MaxAmmo == 0)
+    {
+        return true;
+    }
+    return false;
 }
 
 void AGun::InitialFire()

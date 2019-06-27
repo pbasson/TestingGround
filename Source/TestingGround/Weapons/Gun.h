@@ -70,6 +70,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	int GetMaxAmmo() const;
 
+    UFUNCTION(BlueprintCallable, Category = "Firing")
+    bool OutOfAmmo() const;
+
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void ReloadGun();
 
