@@ -23,8 +23,8 @@ AGun::AGun()
 
 void AGun::ReloadGun()
 {
-	FMath::Clamp(MaxAmmo, 0, 180);
-	FMath::Clamp(AmmoCurrent, 0, 18);
+	MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
+	AmmoCurrent = FMath::Clamp(AmmoCurrent, 0, 18);
 
 
 	if (MaxAmmo > AmmoClip)
@@ -49,9 +49,12 @@ void AGun::ReloadGun()
 
 void AGun::AmmoIncrease()
 {
-	FMath::Clamp(MaxAmmo, 0, 180);
-	if (MaxAmmo != 180)
-	{ MaxAmmo = MaxAmmo + AmmoClip;	}
+	//MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
+	if (MaxAmmo < 180)
+	{	
+		MaxAmmo += AmmoClip;	
+		MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
+	}
 
 }
 

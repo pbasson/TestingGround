@@ -34,8 +34,8 @@ void AAmmoPowerUp::OnOverlapBegin(UPrimitiveComponent * HitComp, AActor * OtherA
 void AAmmoPowerUp::AmmoIncrease(AActor * OtherActor)
 {
 	class AMannequin* OtherCharacter = Cast<AMannequin>(OtherActor);
-
-	if (OtherCharacter != nullptr && AmmoSound != nullptr)
+	// AmmoSound != nullptr
+	if (OtherCharacter != nullptr && OtherCharacter->GetGunMaxAmmo() < 180)
 	{
 		OtherCharacter->AmmoIncrease();
 		UGameplayStatics::PlaySoundAtLocation(this, AmmoSound, GetActorLocation());
