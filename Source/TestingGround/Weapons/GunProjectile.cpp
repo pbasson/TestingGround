@@ -39,15 +39,9 @@ AGunProjectile::AGunProjectile()
 void AGunProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
     LaunchBlast->Deactivate();
-    CollisionComp->DestroyComponent();
+  //  CollisionComp->DestroyComponent();
 
     UGameplayStatics::ApplyPointDamage(OtherActor, ProjectileDamage, GetActorLocation(), Hit, NULL,NULL,NULL);
 	Destroy();
-//    FTimerHandle Timer;
-//    GetWorld()->GetTimerManager().SetTimer(Timer, this, &AGunProjectile::OnTimerExpire, DestroyDelay, false);
 }
 
-void AGunProjectile::OnTimerExpire()
-{
-    Destroy();
-}

@@ -31,9 +31,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-//	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = HUD)
-//	class UWidgetComponent* MannequinWidget;
-
     virtual float TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser);
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
@@ -62,7 +59,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 	int GetGunMaxAmmo() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	bool IsPlayerDead();
+
 	void ReloadGun();
 
     UFUNCTION(BlueprintCallable, Category = "Weapon")

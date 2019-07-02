@@ -81,9 +81,8 @@ int AGun::GetMaxAmmo() const
 bool AGun::OutOfAmmo() const
 {
     if (AmmoCurrent == 0 && MaxAmmo == 0)
-    {
-        return true;
-    }
+    { return true; }
+
     return false;
 }
 
@@ -107,9 +106,7 @@ void AGun::InitialFire()
 	}
 	// try and play the sound if specified
 	if (FireSound != NULL)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-	}
+	{ UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation()); }
 
 	// try and play a firing animation if specified
 	if (FireAnimationTP != nullptr && AnimInstanceTP != nullptr)

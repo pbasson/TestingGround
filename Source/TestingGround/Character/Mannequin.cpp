@@ -9,6 +9,8 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
 #include "WidgetComponent.h"
+#include "Components/SlateWrapperTypes.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -151,11 +153,13 @@ float AMannequin::GetHealth() const
 
 float AMannequin::SetHealthpack(float Healthpack)
 {
-	if (HealthCurrent < HealthMax && HealthCurrent > 75.0f)
-	{ HealthCurrent = HealthMax;}
-
-	else if (HealthCurrent < HealthMax)
+//	if (HealthCurrent < HealthMax && HealthCurrent > 75.0f)
+//	{ HealthCurrent = HealthMax;}
+	
+	if (HealthCurrent < HealthMax)
 	{ HealthCurrent = HealthCurrent + Healthpack; }
+
+	HealthCurrent = FMath::Clamp<int>(HealthCurrent, 0, 100);
 
 	return HealthCurrent;
 }
@@ -168,6 +172,15 @@ int AMannequin::GetGunAmmo() const
 int AMannequin::GetGunMaxAmmo() const
 {
 	return Gun->GetMaxAmmo();
+}
+
+bool AMannequin::IsPlayerDead()
+{
+	if (HealthCurrent == 0)
+	{
+		return true;
+	}
+	return false;
 }
 
 void AMannequin::ReloadGun()
