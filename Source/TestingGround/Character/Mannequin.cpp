@@ -17,7 +17,6 @@
 AMannequin::AMannequin()
 {
 //	PrimaryActorTick.bCanEverTick = true;
-
 	GetCapsuleComponent()->InitCapsuleSize(55.0f, 96.0f);
 	
 	//Set up health values
@@ -27,7 +26,6 @@ AMannequin::AMannequin()
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
-
 
 	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPCamera"));
 	FPCamera->SetupAttachment(GetCapsuleComponent());
@@ -44,7 +42,6 @@ AMannequin::AMannequin()
 	FPMesh->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);
 	GunOffset = FVector(100.0f, 0.0f, 10.0f);
 
-//	MannequinWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthWidget"));
 }
 
 // Called when the game starts or when spawned
@@ -73,8 +70,6 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-//	PlayerInputComponent->BindAction("Reload", IE_Pressed, this &AMannequin::ReloadGun);
-
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMannequin::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMannequin::MoveRight);
 
@@ -87,7 +82,7 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 void AMannequin::MoveForward(float Value)
 {
-	if (Value != MovementZero) { AddMovementInput(GetActorForwardVector(), Value);	}
+	if (Value != MovementZero) { AddMovementInput(GetActorForwardVector(), Value); }
 }
 
 void AMannequin::MoveRight(float Value)
@@ -120,6 +115,14 @@ void AMannequin::GunSetup()
 
 }
 
+void AMannequin::PlayerDead()
+{
+	if (GetName() == "Player")
+	{
+		UGameplayStatics::SetGamePaused(GetWorld(), IsPlayerDead());
+	}
+}
+
 void AMannequin::UnPossessedDamage()
 {
 	DetachFromControllerPendingDestroy();
@@ -127,6 +130,8 @@ void AMannequin::UnPossessedDamage()
 
 	FTimerHandle Timer;
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::EnemyDestroy, DestroyDelay, false);
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::PlayerDead, DestroyDelay, false);
+
 }
 
 void AMannequin::PullTrigger()

@@ -88,7 +88,7 @@ protected:
 private:
 
 	void GunSetup();
-
+	void PlayerDead();
 	void UnPossessedDamage();
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
