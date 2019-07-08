@@ -4,6 +4,9 @@
 #include "NavMesh/NavMeshBoundsVolume.h"
 #include "EngineUtils.h"
 #include "ActorPool.h"
+#include "WidgetComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Terrain/Tile.h"
 
 AInfiniteGameMode::AInfiniteGameMode()
 {
@@ -16,7 +19,21 @@ void AInfiniteGameMode::AddToPool(class ANavMeshBoundsVolume *VolumeToAdd)
 	NavMeshBoundsVolumePool->AddActor(VolumeToAdd);
 }
 
-void AInfiniteGameMode::PopulateBoundsVolumePool() 
+
+void AInfiniteGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	//UObject* ObjectToSpawn = FindObject<UObject>(ClassPackage, TEXT("/Game/CubicColony/Blueprints/Zabawa/ZabawnaKostka.ZabawnaKostka"));
+	PopulateBoundsVolumePool();
+	for (int i = 0; i < 2; i++)
+	{
+		SpawnActor();
+	}
+
+}
+
+void AInfiniteGameMode::PopulateBoundsVolumePool()
 {
 	auto VolumeIterator = TActorIterator<ANavMeshBoundsVolume>(GetWorld());
 	while (VolumeIterator)
@@ -34,4 +51,36 @@ FString AInfiniteGameMode::GetScoreValue()
 int AInfiniteGameMode::SetScoreValue()
 {
 	return ++ScoreValue;
+}
+
+void AInfiniteGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
+{
+	if (CurrentWidget != nullptr)
+	{
+		CurrentWidget->RemoveFromViewport();
+		CurrentWidget = nullptr;
+	}
+	if (NewWidgetClass != nullptr)
+	{
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
+		if (CurrentWidget != nullptr)
+		{
+			CurrentWidget->AddToViewport();
+		}
+	}
+}
+
+void AInfiniteGameMode::CheckMenu()
+{
+	if (UGameplayStatics::IsGamePaused(GetWorld()))
+	{
+		GamePaused = true; 
+	}
+}
+
+void AInfiniteGameMode::SpawnActor()
+{
+	ATile* SpawnedTile = GetWorld()->SpawnActor<ATile>(Tile_BP->GetAuthoritativeClass(), NextTilePos);
+	SpawnedTile->SetPool(NavMeshBoundsVolumePool);
+	NextTilePos = SpawnedTile->GetAttachment();
 }

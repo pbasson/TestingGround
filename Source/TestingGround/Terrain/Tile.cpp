@@ -6,19 +6,32 @@
 #include "ActorPool.h"
 #include "Engine/World.h"
 #include "NavigationSystem.h"
+#include "Components/SphereComponent.h"
+#include "Components/ArrowComponent.h"
 
 // Sets default values
 ATile::ATile()
 {
+	USphereComponent* SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
+	RootComponent = SphereComponent;
+
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
+	Arrow->SetupAttachment(RootComponent);
+	Arrow->SetRelativeLocation(FVector(4000.0f, 0.0f, 0.0f));
+	
 	NavigationRound = FVector(2000, 0, 0);
-
 	MinExtent = FVector(0, -2000, 0);
 	MaxExtent = FVector(4000, 2000, 0);
 }
 
+
+FTransform ATile::GetAttachment()
+{
+	return Arrow->GetComponentTransform();
+}
 
 // Called when the game starts or when spawned
 void ATile::BeginPlay()

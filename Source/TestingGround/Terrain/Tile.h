@@ -8,6 +8,8 @@
 
 class UActorPool; 
 class UWorld;
+class UArrowComponent;
+class UCapsuleComponent;
 
 USTRUCT()
 struct FSpawnPosition
@@ -39,6 +41,11 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Spawning")
+	UArrowComponent* Arrow;
+
+	FTransform GetAttachment();
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -52,8 +59,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
 	FVector NavigationRound;
-
-
 
 private:
 

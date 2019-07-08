@@ -7,6 +7,7 @@
 #include "InfiniteGameMode.generated.h"
 
 class ANavMeshBoundsVolume;
+class ATile;
 
 UCLASS()
 class TESTINGGROUND_API AInfiniteGameMode : public ATGGameMode
@@ -14,8 +15,10 @@ class TESTINGGROUND_API AInfiniteGameMode : public ATGGameMode
 	GENERATED_BODY()
 
 public:
-
 	AInfiniteGameMode();
+
+	virtual void BeginPlay() override;
+
 	UFUNCTION(BlueprintCallable, Category = "Bounds")
 	void PopulateBoundsVolumePool();
 
@@ -25,12 +28,31 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Score")
 	int SetScoreValue();
 
+	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
+	TSubclassOf<ATile> Tile_BP;
+
+	UFUNCTION(BlueprintCallable, Category = "UMG Game")
+	void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);
+
+	void CheckMenu();
+
+	void SpawnActor();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pool")
 	class UActorPool* NavMeshBoundsVolumePool;
 
 	int ScoreValue;
+	FTransform NextTilePos;
+	
+
+	bool GamePaused = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+	TSubclassOf<UUserWidget> StartingWidgetClass;
+
+	UPROPERTY()
+	UUserWidget* CurrentWidget;
 
 private:
 	void AddToPool(class ANavMeshBoundsVolume* VolumeToAdd);
