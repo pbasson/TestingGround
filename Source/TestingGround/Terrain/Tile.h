@@ -44,6 +44,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Spawning")
 	UArrowComponent* Arrow;
 
+	TArray<AActor *> Garbage;
+
 	FTransform GetAttachment();
 
 protected:

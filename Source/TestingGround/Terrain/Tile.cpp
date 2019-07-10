@@ -42,6 +42,15 @@ void ATile::BeginPlay()
 void ATile::EndPlay(const EEndPlayReason::Type EEndPlayReason)
 {
 	Pool->ReturnActor(NavMeshVolume);
+	if (Garbage.Num() != 0)
+	{
+		AActor * Prop;
+		while (Garbage.Num() != 0)
+		{
+			Prop = Garbage.Pop();
+			Prop->Destroy();
+		}
+	}
 }
 
 // Called every frame
@@ -108,6 +117,7 @@ void ATile::RandomlySpawn(TSubclassOf<T> ToSpawn, int MinSpawn, int MaxSpawn, fl
 template<class T>
 void ATile::PlaceSpawn(T Spawned, FSpawnPosition SpawnPosition)
 {
+	Garbage.Add(Spawned);
 	Spawned->SetActorRelativeLocation(SpawnPosition.Location);
 	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 	Spawned->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
@@ -139,6 +149,7 @@ void ATile::SetPool(UActorPool* InPool)
 	Pool = InPool;
 	PositionNavMesh();
 }
+
 
 void ATile::PositionNavMesh()
 {

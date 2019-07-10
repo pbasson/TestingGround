@@ -118,9 +118,7 @@ void AMannequin::GunSetup()
 void AMannequin::PlayerDead()
 {
 	if (GetName() == "Player")
-	{
-		UGameplayStatics::SetGamePaused(GetWorld(), IsPlayerDead());
-	}
+	{ UGameplayStatics::SetGamePaused(GetWorld(), IsPlayerDead()); }
 }
 
 void AMannequin::UnPossessedDamage()
@@ -158,9 +156,6 @@ float AMannequin::GetHealth() const
 
 float AMannequin::SetHealthpack(float Healthpack)
 {
-//	if (HealthCurrent < HealthMax && HealthCurrent > 75.0f)
-//	{ HealthCurrent = HealthMax;}
-	
 	if (HealthCurrent < HealthMax)
 	{ HealthCurrent = HealthCurrent + Healthpack; }
 
@@ -182,9 +177,8 @@ int AMannequin::GetGunMaxAmmo() const
 bool AMannequin::IsPlayerDead()
 {
 	if (HealthCurrent == 0)
-	{
-		return true;
-	}
+	{ return true; }
+
 	return false;
 }
 
@@ -211,6 +205,7 @@ bool AMannequin::OutOfAmmo() const
 {
     if (Gun)
     { return Gun->OutOfAmmo(); }
+
     return false;
 }
 void AMannequin::UnPossessed()
@@ -229,3 +224,7 @@ void AMannequin::EnemyDestroy()
     }
 }
 
+void AMannequin::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Gun->Destroy();
+}

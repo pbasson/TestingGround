@@ -36,6 +36,7 @@ public:
 
 	void CheckMenu();
 
+	UFUNCTION(BlueprintCallable, Category = "Spawn")
 	void SpawnActor();
 
 protected:

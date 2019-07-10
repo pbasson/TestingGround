@@ -24,12 +24,9 @@ void AInfiniteGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//UObject* ObjectToSpawn = FindObject<UObject>(ClassPackage, TEXT("/Game/CubicColony/Blueprints/Zabawa/ZabawnaKostka.ZabawnaKostka"));
 	PopulateBoundsVolumePool();
-	for (int i = 0; i < 2; i++)
-	{
-		SpawnActor();
-	}
+	for (int i = 0; i < 4; i++)
+	{ SpawnActor(); }
 
 }
 
@@ -64,18 +61,14 @@ void AInfiniteGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass
 	{
 		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
 		if (CurrentWidget != nullptr)
-		{
-			CurrentWidget->AddToViewport();
-		}
+		{ CurrentWidget->AddToViewport(); }
 	}
 }
 
 void AInfiniteGameMode::CheckMenu()
 {
 	if (UGameplayStatics::IsGamePaused(GetWorld()))
-	{
-		GamePaused = true; 
-	}
+	{ GamePaused = true; }
 }
 
 void AInfiniteGameMode::SpawnActor()
