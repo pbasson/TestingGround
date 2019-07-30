@@ -28,6 +28,7 @@ void AGun::ReloadGun()
 
     if (MaxAmmo > AmmoClip && AmmoCurrent < AmmoClip)
 	{
+        UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
         AmmoReminder = AmmoClip - AmmoCurrent;
         AmmoCurrent = AmmoClip;
         MaxAmmo = MaxAmmo - AmmoReminder;
@@ -111,11 +112,13 @@ void AGun::InitialFire()
 	// try and play a firing animation if specified
 	if (FireAnimationTP != nullptr && AnimInstanceTP != nullptr)
 	{
-		if (AnimInstanceTP != NULL) { AnimInstanceTP->Montage_Play(FireAnimationTP, 1.f); }
+        if (AnimInstanceTP != NULL)
+        { AnimInstanceTP->Montage_Play(FireAnimationTP, 1.f); }
 	}
 	if (FireAnimationFP != nullptr && AnimInstanceFP != nullptr)
 	{
-		if (AnimInstanceFP != NULL) { AnimInstanceFP->Montage_Play(FireAnimationFP, 1.f); }
+        if (AnimInstanceFP != NULL)
+        { AnimInstanceFP->Montage_Play(FireAnimationFP, 1.f); }
 	}
 }
 
