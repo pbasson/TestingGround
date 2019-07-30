@@ -78,6 +78,9 @@ public:
 	virtual void UnPossessed() override;
 	void EnemyDestroy();
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    class USoundBase* EnemyDeathSound;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -92,6 +95,9 @@ private:
 	void GunSetup();
 	void PlayerDead();
 	void UnPossessedDamage();
+    bool EnemyEndSound();
+
+    class UAudioComponent* AudioComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	class USkeletalMeshComponent* FPMesh;
@@ -103,11 +109,11 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	AGun* Gun = nullptr;
 
-    float MovementZero = 0;
-    float DestroyDelay = 2.0f;
-    float ReloadDelay = 0.5f;
+    const float MovementZero = 0.0f;
+    const float DestroyDelay = 2.0f;
+    const float ReloadDelay = 0.5f;
 
-
-	const float HealthZero = 0.0f;
-	const float HealthMax = 100.0f;
+    const int HealthZero = 0;
+    const int HealthMax = 100;
+    FString PlayerLabel = "Player";
 };

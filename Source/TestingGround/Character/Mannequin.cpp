@@ -9,6 +9,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
 #include "WidgetComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/SlateWrapperTypes.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -18,14 +19,14 @@ AMannequin::AMannequin()
 {
 //	PrimaryActorTick.bCanEverTick = true;
 	GetCapsuleComponent()->InitCapsuleSize(55.0f, 96.0f);
-	
+
+    PlayerLabel = "Player";
+    // set our turn rates for input
+    BaseTurnRate = 45.f;
+    BaseLookUpRate = 45.f;
+
 	//Set up health values
     HealthCurrent = HealthMax;
-	HealthCurrent = FMath::Clamp(HealthCurrent, HealthZero, HealthMax);
-
-	// set our turn rates for input
-	BaseTurnRate = 45.f;
-	BaseLookUpRate = 45.f;
 
 	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPCamera"));
 	FPCamera->SetupAttachment(GetCapsuleComponent());
@@ -115,22 +116,7 @@ void AMannequin::GunSetup()
 
 }
 
-void AMannequin::PlayerDead()
-{
-	if (GetName() == "Player")
-	{ UGameplayStatics::SetGamePaused(GetWorld(), IsPlayerDead()); }
-}
 
-void AMannequin::UnPossessedDamage()
-{
-	DetachFromControllerPendingDestroy();
-	UnPossessed();
-
-	FTimerHandle Timer;
-	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::EnemyDestroy, DestroyDelay, false);
-	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::PlayerDead, DestroyDelay, false);
-
-}
 
 void AMannequin::PullTrigger()
 {
@@ -149,6 +135,43 @@ float AMannequin::TakeDamage(float Damage, const FDamageEvent &DamageEvent, ACon
     return HealthCurrent;
 }
 
+void AMannequin::UnPossessedDamage()
+{
+    DetachFromControllerPendingDestroy();
+    UnPossessed();
+
+    AudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, EnemyDeathSound, GetActorLocation());
+
+    FTimerHandle Timer;
+   //
+    GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::EnemyDestroy, DestroyDelay, false);
+    //GetWorld()->GetTimerManager().SetTimer(Timer, this, &AMannequin::PlayerDead, DestroyDelay, false);
+
+}
+
+void AMannequin::UnPossessed()
+{
+    Super::UnPossessed();
+
+    if (Gun != nullptr)
+    { Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); }
+}
+
+void AMannequin::PlayerDead()
+{
+    if (GetName() == PlayerLabel)
+    { UGameplayStatics::SetGamePaused(GetWorld(), IsPlayerDead()); }
+}
+
+void AMannequin::EnemyDestroy()
+{
+    AudioComponent->SetActive(false);
+    if (GetName() !=  PlayerLabel) {
+        Destroy();
+        Gun->Destroy();
+    }
+}
+
 float AMannequin::GetHealth() const
 {
     return HealthCurrent / HealthMax;
@@ -159,7 +182,7 @@ float AMannequin::SetHealthpack(float Healthpack)
 	if (HealthCurrent < HealthMax)
 	{ HealthCurrent = HealthCurrent + Healthpack; }
 
-	HealthCurrent = FMath::Clamp<int>(HealthCurrent, 0, 100);
+    HealthCurrent = FMath::Clamp<int>(HealthCurrent, HealthZero, HealthMax);
 
 	return HealthCurrent;
 }
@@ -176,7 +199,7 @@ int AMannequin::GetGunMaxAmmo() const
 
 bool AMannequin::IsPlayerDead()
 {
-	if (HealthCurrent == 0)
+    if (HealthCurrent == HealthZero)
 	{ return true; }
 
 	return false;
@@ -207,21 +230,6 @@ bool AMannequin::OutOfAmmo() const
     { return Gun->OutOfAmmo(); }
 
     return false;
-}
-void AMannequin::UnPossessed()
-{
-	Super::UnPossessed();
-
-	if (Gun != nullptr)
-    { Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); }
-}
-
-void AMannequin::EnemyDestroy()
-{
-    if (GetName() !=  "Player") {
-        Destroy();
-        Gun->Destroy();
-    }
 }
 
 void AMannequin::EndPlay(const EEndPlayReason::Type EndPlayReason)
