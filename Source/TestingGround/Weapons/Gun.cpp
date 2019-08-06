@@ -9,6 +9,7 @@
 AGun::AGun()
 {
 	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
+    RootComponent = FP_Gun;
 	FP_Gun->bCastDynamicShadow = false;
 	FP_Gun->CastShadow = false;
 	FP_Gun->SetupAttachment(RootComponent);
@@ -36,7 +37,6 @@ void AGun::ReloadGun()
 	}
 	else if (MaxAmmo <= AmmoClip)
 	{
-		UE_LOG(LogTemp, Warning, TEXT(" OutAmmo"))
 		FiringStatus = EFiringStatus::OutAmmo;
 		AmmoCurrent = MaxAmmo;
 		MaxAmmo = 0;

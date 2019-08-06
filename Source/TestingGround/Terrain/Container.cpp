@@ -15,6 +15,7 @@ AContainer::AContainer()
     FMath::Clamp(HealthCurrent, HealthZero, HealthMax);
 
     CanisterMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CanisterMesh"));
+    RootComponent = CanisterMesh;
 
     ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
     ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
