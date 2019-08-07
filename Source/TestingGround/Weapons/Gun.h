@@ -92,6 +92,8 @@ protected:
 
 	int AmmoReminder;
 
+    void AmmoReloader();
+
 	void InitialFire();
 
 public:	

@@ -7,7 +7,6 @@
 #include "Weapons/GunProjectile.h"
 #include "Kismet/GameplayStatics.h"
 
-// Sets default values
 AGun::AGun()
 {
 	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
@@ -24,27 +23,34 @@ AGun::AGun()
     MaxAmmo = 30;
 }
 
+void AGun::BeginPlay()
+{
+    Super::BeginPlay();
+}
+
+void AGun::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+}
+
 void AGun::ReloadGun()
 {
     if (MaxAmmo >= AmmoClip && AmmoCurrent < AmmoClip)
 	{
-        UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
-        AmmoReminder = AmmoClip - AmmoCurrent;
-        AmmoCurrent = AmmoClip;
-        MaxAmmo -= AmmoReminder;
+       AmmoReloader();
 	}
     else if (MaxAmmo < AmmoClip && MaxAmmo > 0 && AmmoCurrent < AmmoClip)
 	{
+
         if((AmmoCurrent + MaxAmmo) <= 18)
         {
+            UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
             AmmoCurrent += MaxAmmo;
             MaxAmmo = 0;
         }
         else if ((AmmoCurrent + MaxAmmo) > 18)
         {
-            AmmoReminder = AmmoClip - AmmoCurrent;
-            AmmoCurrent = AmmoClip;
-            MaxAmmo -= AmmoReminder;
+            AmmoReloader();
         }
 	}
     MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
@@ -57,10 +63,12 @@ void AGun::AmmoIncrease()
 	MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
 }
 
-// Called when the game starts or when spawned
-void AGun::BeginPlay()
+void AGun::AmmoReloader()
 {
-	Super::BeginPlay();
+    UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
+    AmmoReminder = AmmoClip - AmmoCurrent;
+    AmmoCurrent = AmmoClip;
+    MaxAmmo -= AmmoReminder;
 }
 
 void AGun::OnFire()
@@ -129,10 +137,3 @@ void AGun::InitialFire()
         { AnimInstanceFP->Montage_Play(FireAnimationFP, 1.f); }
 	}
 }
-
-// Called every frame
-void AGun::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
