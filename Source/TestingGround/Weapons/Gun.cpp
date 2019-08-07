@@ -21,28 +21,34 @@ AGun::AGun()
 	FP_MuzzleLocation->SetRelativeLocationAndRotation(FVector(0.2f, 60.0f, 11.0f),FQuat(0.0f,0.0f,90.0f, 0.0f));
 
 	AmmoCurrent = AmmoClip; 
-	MaxAmmo = 180;
+    MaxAmmo = 30;
 }
 
 void AGun::ReloadGun()
 {
-	MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
-	AmmoCurrent = FMath::Clamp(AmmoCurrent, 0, 18);
-
-    if (MaxAmmo > AmmoClip && AmmoCurrent < AmmoClip)
+    if (MaxAmmo >= AmmoClip && AmmoCurrent < AmmoClip)
 	{
         UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
         AmmoReminder = AmmoClip - AmmoCurrent;
         AmmoCurrent = AmmoClip;
-        MaxAmmo = MaxAmmo - AmmoReminder;
-        FiringStatus = EFiringStatus::Reloading;
+        MaxAmmo -= AmmoReminder;
 	}
-	else if (MaxAmmo <= AmmoClip)
+    else if (MaxAmmo < AmmoClip && MaxAmmo > 0 && AmmoCurrent < AmmoClip)
 	{
-		FiringStatus = EFiringStatus::OutAmmo;
-		AmmoCurrent = MaxAmmo;
-		MaxAmmo = 0;
+        if((AmmoCurrent + MaxAmmo) <= 18)
+        {
+            AmmoCurrent += MaxAmmo;
+            MaxAmmo = 0;
+        }
+        else if ((AmmoCurrent + MaxAmmo) > 18)
+        {
+            AmmoReminder = AmmoClip - AmmoCurrent;
+            AmmoCurrent = AmmoClip;
+            MaxAmmo -= AmmoReminder;
+        }
 	}
+    MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
+    AmmoCurrent = FMath::Clamp(AmmoCurrent, 0, 18);
 }
 
 void AGun::AmmoIncrease()

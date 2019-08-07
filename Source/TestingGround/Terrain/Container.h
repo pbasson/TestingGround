@@ -29,12 +29,6 @@ public:
     AContainer();
 	virtual void Tick(float DeltaTime) override;
 
-    float HealthMax = 60.0f;
-    float HealthZero = 0.0f;
-    float HealthCurrent;
-
-    float DestroyDelay = 0.50f;
-
     float TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser);
     float GetHealth() const;
 
@@ -43,11 +37,18 @@ public:
 
     UPROPERTY(VisibleAnywhere)
     UParticleSystemComponent* ImpactBlast;
+
     URadialForceComponent* ExplosionForce;
 
     void OnTimerExpire();
 
 private:
+
     UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
     UStaticMeshComponent* CanisterMesh;
+
+    float HealthCurrent;
+    float HealthMax = 60.0f;
+    float HealthZero = 0.0f;
+    float DestroyDelay = 0.25f;
     };

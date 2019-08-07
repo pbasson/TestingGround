@@ -24,29 +24,25 @@ AContainer::AContainer()
 
     ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
     ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-
 }
 
 // Called when the game starts or when spawned
 void AContainer::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AContainer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 
 float AContainer::TakeDamage(float Damage, const FDamageEvent &DamageEvent, AController *EventInstigator, AActor *DamageCauser)
 {
-
-
-    if(HealthCurrent > HealthZero) { HealthCurrent = HealthCurrent - Damage; }
+    if(HealthCurrent > HealthZero)
+    { HealthCurrent = HealthCurrent - Damage; }
 
     if (HealthCurrent == HealthZero)
     {
@@ -54,9 +50,11 @@ float AContainer::TakeDamage(float Damage, const FDamageEvent &DamageEvent, ACon
         SetRootComponent(ImpactBlast);
         UGameplayStatics::PlaySoundAtLocation(this, CollectSound, GetActorLocation());
 
+
         FTimerHandle Timer;
         GetWorld()->GetTimerManager().SetTimer(Timer, this, &AContainer::OnTimerExpire, DestroyDelay, false);
     }
+
     return HealthCurrent;
 }
 
@@ -70,4 +68,4 @@ void AContainer::OnTimerExpire()
     Destroy();
 }
 
-
+//TODO: Create Function so Manniquin () takes damage
