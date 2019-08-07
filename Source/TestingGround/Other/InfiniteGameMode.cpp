@@ -1,4 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//PROJECT: Testing Grounds
+//AUTHOR: Preetpal Basson
+//DESCRIPTION:
 
 #include "InfiniteGameMode.h"
 #include "NavMesh/NavMeshBoundsVolume.h"
@@ -10,25 +12,21 @@
 
 AInfiniteGameMode::AInfiniteGameMode()
 {
-	NavMeshBoundsVolumePool = CreateAbstractDefaultSubobject<UActorPool>(TEXT("NavMeshBoundsVolumePool"));
+    NavMeshPool = CreateAbstractDefaultSubobject<UActorPool>(TEXT("NavMeshBoundsVolumePool"));
 	ScoreValue = 0;
 }
-
-void AInfiniteGameMode::AddToPool(class ANavMeshBoundsVolume *VolumeToAdd) 
-{
-	NavMeshBoundsVolumePool->AddActor(VolumeToAdd);
-}
-
 
 void AInfiniteGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PopulateBoundsVolumePool();
-	for (int i = 0; i < 4; i++)
-	{ SpawnActor(); }
-
+    PopulateBoundsVolumePool();
+    for (int i = 0; i < 4; i++)
+    {
+        SpawnActor();
+    }
 }
+
 
 void AInfiniteGameMode::PopulateBoundsVolumePool()
 {
@@ -40,6 +38,18 @@ void AInfiniteGameMode::PopulateBoundsVolumePool()
 	}
 }
 
+void AInfiniteGameMode::SpawnActor()
+{
+    ATile* SpawnedTile = GetWorld()->SpawnActor<ATile>(Tile_BP->GetAuthoritativeClass(), NextTilePos);
+    SpawnedTile->SetPool(NavMeshPool);
+    NextTilePos = SpawnedTile->GetAttachment();
+}
+
+void AInfiniteGameMode::AddToPool(class ANavMeshBoundsVolume *VolumeToAdd)
+{
+    NavMeshPool->AddActor(VolumeToAdd);
+}
+
 FString AInfiniteGameMode::GetScoreValue()
 {
 	return "Score: " + FString::FromInt(ScoreValue);
@@ -47,7 +57,7 @@ FString AInfiniteGameMode::GetScoreValue()
 
 int AInfiniteGameMode::SetScoreValue()
 {
-	return ++ScoreValue;
+    return ScoreValue++;
 }
 
 void AInfiniteGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
@@ -71,9 +81,4 @@ void AInfiniteGameMode::CheckMenu()
 	{ GamePaused = true; }
 }
 
-void AInfiniteGameMode::SpawnActor()
-{
-	ATile* SpawnedTile = GetWorld()->SpawnActor<ATile>(Tile_BP->GetAuthoritativeClass(), NextTilePos);
-	SpawnedTile->SetPool(NavMeshBoundsVolumePool);
-	NextTilePos = SpawnedTile->GetAttachment();
-}
+

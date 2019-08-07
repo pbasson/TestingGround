@@ -1,4 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//PROJECT: Testing Grounds
+//AUTHOR: Preetpal Basson
+//DESCRIPTION:
 
 #include "Tile.h"
 #include "Engine/World.h"
@@ -35,6 +37,7 @@ void ATile::BeginPlay()
 
 void ATile::EndPlay(const EEndPlayReason::Type EEndPlayReason)
 {
+    Super::EndPlay(EEndPlayReason);
     Pool->ReturnActor(NavMeshVolume);
 	if (Garbage.Num() != 0)
 	{
@@ -149,10 +152,10 @@ void ATile::SetPool(UActorPool* InPool)
 
 void ATile::PositionNavMesh()
 {
-	AActor* NavMeshBounds = Pool->Checkout();
-    if (NavMeshBounds == nullptr) {
+    NavMeshVolume = Pool->Checkout();
+    if (NavMeshVolume == nullptr) {
         return;	}
 
-	NavMeshBounds->SetActorLocation(GetActorLocation() + NavigationRound);
+    NavMeshVolume->SetActorLocation(GetActorLocation() + NavigationRound);
 	FNavigationSystem::Build(*GetWorld());
 }

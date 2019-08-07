@@ -1,53 +1,41 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//PROJECT: Testing Grounds
+//AUTHOR: Preetpal Basson
+//DESCRIPTION:
 
 #include "ActorPool.h"
 
-// Sets default values for this component's properties
+
 UActorPool::UActorPool()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	PrimaryComponentTick.bCanEverTick = true;
 }
 
-
-// Called when the game starts
 void UActorPool::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
 	
 }
 
-
-// Called every frame
 void UActorPool::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 AActor * UActorPool::Checkout()
 {
 	if (ThePool.Num() == 0)
-	{
-		return nullptr;
+    { return nullptr; }
 
-	}
 	return ThePool.Pop();
 }
 
-void UActorPool::ReturnActor(AActor * ActorToReturn)
+void UActorPool::ReturnActor(AActor* ActorToReturn)
 {
 	AddActor(ActorToReturn);
 }
 
-void UActorPool::AddActor(AActor * ActorToAdd)
+void UActorPool::AddActor(AActor* ActorToAdd)
 {
 	ThePool.Push(ActorToAdd);
 }
-

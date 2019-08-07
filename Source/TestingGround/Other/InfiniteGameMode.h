@@ -1,4 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//PROJECT: Testing Grounds
+//AUTHOR: Preetpal Basson
+//DESCRIPTION:
 
 #pragma once
 
@@ -41,7 +43,7 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pool")
-	class UActorPool* NavMeshBoundsVolumePool;
+    class UActorPool* NavMeshPool;
 
 	int ScoreValue;
 	FTransform NextTilePos;

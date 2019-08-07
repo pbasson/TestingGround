@@ -1,4 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//PROJECT: Testing Grounds
+//AUTHOR: Preetpal Basson
+//DESCRIPTION:
 
 #include "GrassComponent.h"
 
