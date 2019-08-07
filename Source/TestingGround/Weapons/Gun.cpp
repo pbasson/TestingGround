@@ -35,32 +35,17 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::ReloadGun()
 {
-    if (MaxAmmo >= AmmoClip && AmmoCurrent < AmmoClip)
-	{
-       AmmoReloader();
-	}
-    else if (MaxAmmo < AmmoClip && MaxAmmo > 0 && AmmoCurrent < AmmoClip)
-	{
+    if ( ((AmmoCurrent + MaxAmmo) > 18) && AmmoCurrent < AmmoClip)
+    { AmmoReloader(); }
 
-        if((AmmoCurrent + MaxAmmo) <= 18)
-        {
-            UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
-            AmmoCurrent += MaxAmmo;
-            MaxAmmo = 0;
-        }
-        else if ((AmmoCurrent + MaxAmmo) > 18)
-        {
-            AmmoReloader();
-        }
-	}
+    else if ( ((AmmoCurrent + MaxAmmo) <= 18) && MaxAmmo > 0 && AmmoCurrent < AmmoClip)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
+        AmmoCurrent += MaxAmmo;
+        MaxAmmo = 0;
+    }
     MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
     AmmoCurrent = FMath::Clamp(AmmoCurrent, 0, 18);
-}
-
-void AGun::AmmoIncrease()
-{
-	MaxAmmo += AmmoClip;	
-	MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
 }
 
 void AGun::AmmoReloader()
@@ -71,6 +56,12 @@ void AGun::AmmoReloader()
     MaxAmmo -= AmmoReminder;
 }
 
+void AGun::AmmoIncrease()
+{
+    MaxAmmo += AmmoClip;
+    MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
+}
+
 void AGun::OnFire()
 {
 	if (AmmoCurrent > 0)
@@ -78,6 +69,41 @@ void AGun::OnFire()
 		InitialFire();
 		AmmoCurrent--;
 	}
+}
+
+void AGun::InitialFire()
+{
+    // try and fire a projectile
+    if (ProjectileClass != NULL)
+    {
+        UWorld* const World = GetWorld();
+        if (World != NULL)
+        {
+            const FRotator SpawnRotation = FP_MuzzleLocation->GetComponentRotation(); // Set Rotation
+            const FVector SpawnLocation = FP_MuzzleLocation->GetComponentLocation();  // Set Location
+
+            FActorSpawnParameters ActorSpawnParams; //Set Spawn Collision Handling Override
+            ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+            //Spawn the projectile at the muzzle
+            World->SpawnActor<AGunProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+        }
+    }
+    // try and play the sound if specified
+    if (FireSound != NULL)
+    { UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation()); }
+
+    // try and play a firing animation if specified
+    if (FireAnimationTP != nullptr && AnimInstanceTP != nullptr)
+    {
+        if (AnimInstanceTP != NULL)
+        { AnimInstanceTP->Montage_Play(FireAnimationTP, 1.f); }
+    }
+    if (FireAnimationFP != nullptr && AnimInstanceFP != nullptr)
+    {
+        if (AnimInstanceFP != NULL)
+        { AnimInstanceFP->Montage_Play(FireAnimationFP, 1.f); }
+    }
 }
 
 EFiringStatus AGun::GetFiringStatus() const
@@ -101,39 +127,4 @@ bool AGun::OutOfAmmo() const
     { return true; }
 
     return false;
-}
-
-void AGun::InitialFire()
-{
-	// try and fire a projectile
-	if (ProjectileClass != NULL)
-	{
-		UWorld* const World = GetWorld();
-		if (World != NULL)
-		{
-			const FRotator SpawnRotation = FP_MuzzleLocation->GetComponentRotation(); // Set Rotation
-			const FVector SpawnLocation = FP_MuzzleLocation->GetComponentLocation();  // Set Location
-			
-			FActorSpawnParameters ActorSpawnParams; //Set Spawn Collision Handling Override
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-			//Spawn the projectile at the muzzle
-			World->SpawnActor<AGunProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-		}
-	}
-	// try and play the sound if specified
-	if (FireSound != NULL)
-	{ UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation()); }
-
-	// try and play a firing animation if specified
-	if (FireAnimationTP != nullptr && AnimInstanceTP != nullptr)
-	{
-        if (AnimInstanceTP != NULL)
-        { AnimInstanceTP->Montage_Play(FireAnimationTP, 1.f); }
-	}
-	if (FireAnimationFP != nullptr && AnimInstanceFP != nullptr)
-	{
-        if (AnimInstanceFP != NULL)
-        { AnimInstanceFP->Montage_Play(FireAnimationFP, 1.f); }
-	}
 }
