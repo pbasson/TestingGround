@@ -33,6 +33,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "ActorSpawning")
 	TSubclassOf<ATile> Tile_BP;
 
+    UFUNCTION(BlueprintCallable, Category = "UMG Game")
+    void Restart();
+
+    UFUNCTION(BlueprintCallable, Category = "UMG Game")
+    void NewGame();
+
 	UFUNCTION(BlueprintCallable, Category = "UMG Game")
 	void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);
 

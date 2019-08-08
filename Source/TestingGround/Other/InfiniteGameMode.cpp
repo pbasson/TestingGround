@@ -19,14 +19,17 @@ AInfiniteGameMode::AInfiniteGameMode()
 void AInfiniteGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+    ChangeMenuWidget(StartingWidgetClass);
 
-    PopulateBoundsVolumePool();
-    for (int i = 0; i < 4; i++)
-    {
-        SpawnActor();
-    }
 }
 
+void AInfiniteGameMode::NewGame()
+{
+    CurrentWidget->RemoveFromViewport();
+    PopulateBoundsVolumePool();
+    for (int i = 0; i < 4; i++)
+    { SpawnActor(); }
+}
 
 void AInfiniteGameMode::PopulateBoundsVolumePool()
 {
@@ -45,6 +48,11 @@ void AInfiniteGameMode::SpawnActor()
     NextTilePos = SpawnedTile->GetAttachment();
 }
 
+void AInfiniteGameMode::Restart()
+{
+    CurrentWidget->RemoveFromViewport();
+}
+
 void AInfiniteGameMode::AddToPool(class ANavMeshBoundsVolume *VolumeToAdd)
 {
     NavMeshPool->AddActor(VolumeToAdd);
@@ -60,6 +68,10 @@ int AInfiniteGameMode::SetScoreValue()
     return ScoreValue++;
 }
 
+
+
+
+
 void AInfiniteGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
 {
 	if (CurrentWidget != nullptr)
@@ -67,12 +79,13 @@ void AInfiniteGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass
 		CurrentWidget->RemoveFromViewport();
 		CurrentWidget = nullptr;
 	}
-	if (NewWidgetClass != nullptr)
+    if (NewWidgetClass != nullptr)
 	{
 		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
-		if (CurrentWidget != nullptr)
-		{ CurrentWidget->AddToViewport(); }
-	}
+
+        if (CurrentWidget != nullptr)
+        { CurrentWidget->AddToViewport(); }
+    }
 }
 
 void AInfiniteGameMode::CheckMenu()

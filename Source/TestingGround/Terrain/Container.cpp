@@ -22,6 +22,7 @@ AContainer::AContainer()
     ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
     ImpactBlast->bAutoActivate = false;
 
+
     ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
     ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
@@ -49,7 +50,6 @@ float AContainer::TakeDamage(float Damage, const FDamageEvent &DamageEvent, ACon
         ImpactBlast->Activate();
         SetRootComponent(ImpactBlast);
         UGameplayStatics::PlaySoundAtLocation(this, CollectSound, GetActorLocation());
-
 
         FTimerHandle Timer;
         GetWorld()->GetTimerManager().SetTimer(Timer, this, &AContainer::OnTimerExpire, DestroyDelay, false);

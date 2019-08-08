@@ -115,10 +115,7 @@ void AMannequin::GunSetup()
 	// AttachToComponent to Socket of the Skeleton
 	Gun->AnimInstanceFP = FPMesh->GetAnimInstance();
 	Gun->AnimInstanceTP = GetMesh()->GetAnimInstance();
-
 }
-
-
 
 void AMannequin::PullTrigger()
 {
