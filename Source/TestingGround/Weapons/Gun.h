@@ -89,10 +89,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	const int AmmoClip = 18;
+    const int AmmoZero = 0;
 
 	int AmmoReminder;
 
     void AmmoReloader();
+
+    void AmmoSingleReloader();
 
 	void InitialFire();
 

@@ -35,17 +35,17 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::ReloadGun()
 {
-    if ( ((AmmoCurrent + MaxAmmo) > 18) && AmmoCurrent < AmmoClip)
-    { AmmoReloader(); }
-
-    else if ( ((AmmoCurrent + MaxAmmo) <= 18) && MaxAmmo > 0 && AmmoCurrent < AmmoClip)
+    if( AmmoCurrent < AmmoClip )
     {
-        UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
-        AmmoCurrent += MaxAmmo;
-        MaxAmmo = 0;
+        if ( ((AmmoCurrent + MaxAmmo) > AmmoClip) )
+        { AmmoReloader(); }
+
+        else if ( ((AmmoCurrent + MaxAmmo) <= AmmoClip) && MaxAmmo > AmmoZero )
+        { AmmoSingleReloader(); }
+
+        MaxAmmo = FMath::Clamp(MaxAmmo, AmmoZero, 180);
+        AmmoCurrent = FMath::Clamp(AmmoCurrent, AmmoZero, AmmoClip);
     }
-    MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
-    AmmoCurrent = FMath::Clamp(AmmoCurrent, 0, 18);
 }
 
 void AGun::AmmoReloader()
@@ -56,15 +56,23 @@ void AGun::AmmoReloader()
     MaxAmmo -= AmmoReminder;
 }
 
+void AGun::AmmoSingleReloader()
+{
+    UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, GetActorLocation());
+    AmmoReminder = MaxAmmo;
+    AmmoCurrent += AmmoReminder;
+    MaxAmmo -= AmmoReminder;
+}
+
 void AGun::AmmoIncrease()
 {
     MaxAmmo += AmmoClip;
-    MaxAmmo = FMath::Clamp(MaxAmmo, 0, 180);
+    MaxAmmo = FMath::Clamp(MaxAmmo, AmmoZero, 180);
 }
 
 void AGun::OnFire()
 {
-	if (AmmoCurrent > 0)
+    if (AmmoCurrent > AmmoZero)
 	{
 		InitialFire();
 		AmmoCurrent--;
@@ -123,7 +131,7 @@ int AGun::GetMaxAmmo() const
 
 bool AGun::OutOfAmmo() const
 {
-    if (AmmoCurrent == 0 && MaxAmmo == 0)
+    if (AmmoCurrent == AmmoZero && MaxAmmo == AmmoZero)
     { return true; }
 
     return false;
