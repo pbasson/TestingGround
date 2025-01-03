@@ -1,4 +1,4 @@
-# TestingGround
+# Testing Ground By Preetpal Basson 
 
 --------------------
 ## Overview
@@ -19,8 +19,6 @@ and environment elements (Containers, boxes).
 
 Each level is completed when the player pass through the Green barrier which locks off 
 the previous level and increments the score by 1.
-
-
 
 
 # END
